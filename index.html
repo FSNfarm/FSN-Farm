@@ -1,380 +1,346 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>FSN Farm | Poultry Management</title>
-
+  <title>FSN Farm Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+<div class="app">
 
-  <header class="header">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
 
-    <div class="logo">
-
-      <div class="logo-icon">
-        🐔
-      </div>
-
+    <div class="brand">
+      <div class="brand-logo">🐔</div>
       <div>
-        <h1>FSN FARM</h1>
-        <p>Poultry Farm Management System</p>
+        <h2>FSN FARM</h2>
+        <span>Farm Management</span>
+      </div>
+    </div>
+
+    <nav class="menu">
+
+      <button class="menu-item active">
+        <span>🏠</span>
+        Dashboard
+      </button>
+
+      <button class="menu-item">
+        <span>🐔</span>
+        Populasi Ayam
+      </button>
+
+      <button class="menu-item">
+        <span>🌾</span>
+        Manajemen Pakan
+      </button>
+
+      <button class="menu-item">
+        <span>📉</span>
+        Mortalitas
+      </button>
+
+      <button class="menu-item">
+        <span>⚖️</span>
+        Pertumbuhan
+      </button>
+
+      <button class="menu-item">
+        <span>💉</span>
+        Kesehatan
+      </button>
+
+      <button class="menu-item">
+        <span>🚚</span>
+        Panen
+      </button>
+
+      <button class="menu-item">
+        <span>💰</span>
+        Keuangan
+      </button>
+
+      <button class="menu-item">
+        <span>📊</span>
+        Laporan
+      </button>
+
+      <button class="menu-item">
+        <span>⚙️</span>
+        Pengaturan
+      </button>
+
+    </nav>
+
+    <div class="farm-status">
+      <div class="status-dot"></div>
+      <div>
+        <strong>Farm Aktif</strong>
+        <small>Sistem berjalan normal</small>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="top-left">
+        <button class="hamburger" id="hamburger">
+          ☰
+        </button>
+
+        <div>
+          <h1>Dashboard</h1>
+          <p id="currentDate">Memuat tanggal...</p>
+        </div>
       </div>
 
-    </div>
+      <div class="top-actions">
 
-    <div class="date" id="currentDate">
-      Memuat tanggal...
-    </div>
+        <button class="notification">
+          🔔
+          <span>3</span>
+        </button>
 
-  </header>
+        <div class="profile">
+          <div class="avatar">A</div>
+          <div>
+            <strong>Admin Farm</strong>
+            <small>Administrator</small>
+          </div>
+        </div>
 
+      </div>
 
-  <!-- =========================
-       MAIN CONTENT
-  ========================== -->
-
-  <main class="container">
-
-    <section class="welcome">
-
-      <h2>Dashboard Peternakan 🐣</h2>
-
-      <p>
-        Pantau populasi, mortalitas, pakan,
-        performa dan kesiapan panen dalam satu dashboard.
-      </p>
-
-    </section>
+    </header>
 
 
-    <!-- =========================
-         STATISTIK UTAMA
-    ========================== -->
+    <!-- CONTENT -->
+    <section class="content">
 
-    <section class="stats">
+      <!-- HERO -->
+      <div class="hero">
 
-      <!-- POPULASI -->
+        <div>
+          <span class="hero-label">🐣 FSN POULTRY MANAGEMENT</span>
 
-      <div class="card green">
+          <h2>
+            Selamat datang di
+            <span>FSN Farm</span>
+          </h2>
 
-        <div class="card-icon">
+          <p>
+            Pantau kondisi peternakan, populasi ayam,
+            pakan dan performa produksi dalam satu sistem.
+          </p>
+        </div>
+
+        <div class="hero-chicken">
           🐔
         </div>
 
-        <div class="card-title">
-          AYAM HIDUP
+      </div>
+
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid">
+
+        <div class="stat-card green-card">
+          <div class="stat-icon">🐔</div>
+
+          <div>
+            <p>Ayam Hidup</p>
+            <h3 id="liveChicken">0</h3>
+            <span>Populasi saat ini</span>
+          </div>
         </div>
 
-        <div class="card-number" id="liveChicken">
-          4.872
+
+        <div class="stat-card orange-card">
+          <div class="stat-icon">🌾</div>
+
+          <div>
+            <p>Stok Pakan</p>
+            <h3 id="feedStock">0 kg</h3>
+            <span>Persediaan gudang</span>
+          </div>
         </div>
 
-        <div class="card-detail">
-          Dari 5.000 DOC
+
+        <div class="stat-card red-card">
+          <div class="stat-icon">📉</div>
+
+          <div>
+            <p>Total Kematian</p>
+            <h3 id="deadChicken">0</h3>
+            <span>Periode berjalan</span>
+          </div>
+        </div>
+
+
+        <div class="stat-card blue-card">
+          <div class="stat-icon">🚚</div>
+
+          <div>
+            <p>Siap Panen</p>
+            <h3 id="harvestChicken">0</h3>
+            <span>Estimasi populasi</span>
+          </div>
         </div>
 
       </div>
 
 
-      <!-- PAKAN -->
+      <!-- SECOND ROW -->
+      <div class="dashboard-row">
 
-      <div class="card orange">
+        <!-- FEED -->
+        <div class="dashboard-panel">
 
-        <div class="card-icon">
-          🌾
+          <div class="panel-heading">
+            <div>
+              <h3>🌾 Persediaan Pakan</h3>
+              <p>Status gudang pakan</p>
+            </div>
+
+            <span class="safe-badge">
+              Aman
+            </span>
+          </div>
+
+          <div class="feed-value">
+            <strong id="feedPanelValue">0</strong>
+            <span>kg tersedia</span>
+          </div>
+
+          <div class="progress">
+            <div class="progress-fill"></div>
+          </div>
+
+          <div class="progress-info">
+            <span>0 kg</span>
+            <span>Kapasitas 5.000 kg</span>
+          </div>
+
         </div>
 
-        <div class="card-title">
-          STOK PAKAN
-        </div>
 
-        <div class="card-number" id="feedStock">
-          2.450 kg
-        </div>
+        <!-- PERFORMANCE -->
+        <div class="dashboard-panel">
 
-        <div class="card-detail">
-          Kondisi stok aman
+          <div class="panel-heading">
+            <div>
+              <h3>📊 Performa Farm</h3>
+              <p>Ringkasan periode saat ini</p>
+            </div>
+          </div>
+
+          <div class="performance-grid">
+
+            <div class="performance-item">
+              <span>Mortalitas</span>
+              <strong id="mortalityRate">0%</strong>
+            </div>
+
+            <div class="performance-item">
+              <span>FCR</span>
+              <strong>--</strong>
+            </div>
+
+            <div class="performance-item">
+              <span>Bobot Rata-rata</span>
+              <strong id="weightValue">0 kg</strong>
+            </div>
+
+            <div class="performance-item">
+              <span>Umur</span>
+              <strong>-- hari</strong>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
 
 
-      <!-- KEMATIAN -->
+      <!-- INPUT -->
+      <div class="dashboard-panel input-panel">
 
-      <div class="card red">
+        <div class="panel-heading">
 
-        <div class="card-icon">
-          📉
+          <div>
+            <h3>📝 Input Data Harian</h3>
+            <p>Catat aktivitas operasional hari ini</p>
+          </div>
+
+          <span class="system-active">
+            ● Sistem Aktif
+          </span>
+
         </div>
 
-        <div class="card-title">
-          TOTAL KEMATIAN
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>🐔 Populasi Awal / DOC</label>
+            <input type="number" id="initialChicken" placeholder="5000">
+          </div>
+
+          <div class="form-group">
+            <label>☠️ Mati Hari Ini</label>
+            <input type="number" id="dailyDeath" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label>🌾 Stok Pakan Awal</label>
+            <input type="number" id="initialFeed" placeholder="3000">
+          </div>
+
+          <div class="form-group">
+            <label>📦 Pakan Masuk</label>
+            <input type="number" id="feedIncoming" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label>🥣 Pakan Digunakan</label>
+            <input type="number" id="feedUsed" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label>⚖️ Bobot Rata-rata</label>
+            <input type="number" step="0.01" id="averageWeight" placeholder="1.50">
+          </div>
+
         </div>
 
-        <div class="card-number" id="deadChicken">
-          128
-        </div>
+        <button class="save-btn" id="saveDailyData">
+          💾 Simpan Data Hari Ini
+        </button>
 
-        <div class="card-detail">
-          Mortalitas 2,56%
-        </div>
-
-      </div>
-
-
-      <!-- PANEN -->
-
-      <div class="card blue">
-
-        <div class="card-icon">
-          🚚
-        </div>
-
-        <div class="card-title">
-          SIAP PANEN
-        </div>
-
-        <div class="card-number" id="harvestChicken">
-          3.950
-        </div>
-
-        <div class="card-detail">
-          Target ≥ 1,80 kg
+        <div id="successMessage" class="success-message">
+          ✓ Data peternakan berhasil disimpan
         </div>
 
       </div>
 
     </section>
 
-
-    <!-- =========================
-         PANEL BAWAH
-    ========================== -->
-
-    <section class="dashboard-grid">
-
-
-      <!-- STOK PAKAN -->
-
-      <div class="panel">
-
-        <h3>🌾 Persediaan Pakan</h3>
-
-        <p>Stok pakan tersedia</p>
-
-        <div class="feed-number">
-          2.450 kg
-        </div>
-
-        <div class="progress">
-
-          <div class="progress-bar">
-          </div>
-
-        </div>
-
-        <p style="margin-top: 12px; color:#78909c;">
-          68% dari kapasitas penyimpanan
-        </p>
-
-      </div>
-
-
-      <!-- PERFORMA -->
-
-      <div class="panel">
-
-        <h3>📊 Performa Ternak</h3>
-
-        <div class="performance">
-
-
-          <div class="performance-box">
-
-            <span>
-              Mortalitas
-            </span>
-
-            <strong>
-              2,56%
-            </strong>
-
-          </div>
-
-
-          <div class="performance-box">
-
-            <span>
-              FCR
-            </span>
-
-            <strong>
-              1,58
-            </strong>
-
-          </div>
-
-
-          <div class="performance-box">
-
-            <span>
-              Bobot Rata-rata
-            </span>
-
-            <strong>
-              1,92 kg
-            </strong>
-
-          </div>
-
-
-          <div class="performance-box">
-
-            <span>
-              Umur Ayam
-            </span>
-
-            <strong>
-              31 hari
-            </strong>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-<!-- =========================
-     INPUT DATA HARIAN
-========================== -->
-
-<section class="input-section">
-
-  <div class="section-title">
-    <div>
-      <h2>📝 Input Data Harian</h2>
-      <p>Masukkan aktivitas operasional peternakan hari ini.</p>
-    </div>
-
-    <span class="status-badge">
-      ● Sistem Aktif
-    </span>
-  </div>
-
-
-  <div class="form-grid">
-
-    <div class="input-group">
-      <label>🐔 Populasi Awal / DOC</label>
-
-      <input
-        type="number"
-        id="initialChicken"
-        placeholder="Contoh: 5000"
-        min="0"
-      >
-    </div>
-
-
-    <div class="input-group">
-      <label>☠️ Ayam Mati Hari Ini</label>
-
-      <input
-        type="number"
-        id="dailyDeath"
-        placeholder="Contoh: 5"
-        min="0"
-      >
-    </div>
-
-
-    <div class="input-group">
-      <label>🌾 Stok Pakan Awal (kg)</label>
-
-      <input
-        type="number"
-        id="initialFeed"
-        placeholder="Contoh: 3000"
-        min="0"
-        step="0.1"
-      >
-    </div>
-
-
-    <div class="input-group">
-      <label>📦 Pakan Masuk Hari Ini (kg)</label>
-
-      <input
-        type="number"
-        id="feedIncoming"
-        placeholder="Contoh: 500"
-        min="0"
-        step="0.1"
-      >
-    </div>
-
-
-    <div class="input-group">
-      <label>🥣 Pakan Digunakan Hari Ini (kg)</label>
-
-      <input
-        type="number"
-        id="feedUsed"
-        placeholder="Contoh: 150"
-        min="0"
-        step="0.1"
-      >
-    </div>
-
-
-    <div class="input-group">
-      <label>⚖️ Bobot Rata-rata Ayam (kg)</label>
-
-      <input
-        type="number"
-        id="averageWeight"
-        placeholder="Contoh: 1.92"
-        min="0"
-        step="0.01"
-      >
-    </div>
-
-  </div>
-
-
-  <button
-    class="save-button"
-    id="saveDailyData"
-  >
-    💾 Simpan Data Hari Ini
-  </button>
-
-
-  <div
-    class="success-message"
-    id="successMessage"
-  >
-    ✅ Data berhasil disimpan.
-  </div>
-
-</section>
   </main>
 
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
-
 </html>
