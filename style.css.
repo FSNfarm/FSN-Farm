@@ -1,0 +1,374 @@
+/* =========================
+   FSN FARM - MAIN STYLE
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --green: #2e7d32;
+    --green-light: #4caf50;
+    --green-soft: #e8f5e9;
+    --orange: #ff9800;
+    --cream: #fffaf0;
+    --red: #e53935;
+    --blue: #1976d2;
+    --text: #263238;
+    --muted: #78909c;
+    --white: #ffffff;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background:
+        linear-gradient(
+            135deg,
+            #f4fff4 0%,
+            #fff8e7 100%
+        );
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+.header {
+    background:
+        linear-gradient(
+            135deg,
+            #1b5e20,
+            #43a047
+        );
+
+    color: white;
+    padding: 25px 6%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 5px 25px rgba(0,0,0,.15);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-icon {
+    font-size: 45px;
+    animation: floatChicken 3s ease-in-out infinite;
+}
+
+.logo h1 {
+    font-size: 28px;
+}
+
+.logo p {
+    opacity: .8;
+    margin-top: 3px;
+}
+
+.date {
+    background: rgba(255,255,255,.15);
+    padding: 10px 18px;
+    border-radius: 20px;
+}
+
+/* CONTENT */
+
+.container {
+    width: 90%;
+    max-width: 1300px;
+    margin: 35px auto;
+}
+
+/* WELCOME */
+
+.welcome {
+    margin-bottom: 25px;
+    animation: slideDown .8s ease;
+}
+
+.welcome h2 {
+    color: var(--green);
+    margin-bottom: 7px;
+}
+
+.welcome p {
+    color: var(--muted);
+}
+
+/* STAT CARDS */
+
+.stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+
+    position: relative;
+    overflow: hidden;
+
+    transition: .3s;
+
+    animation: cardAppear .7s ease both;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.13);
+}
+
+.card::after {
+    content: "";
+
+    position: absolute;
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    right: -30px;
+    top: -30px;
+
+    opacity: .12;
+}
+
+.green::after {
+    background: var(--green);
+}
+
+.orange::after {
+    background: var(--orange);
+}
+
+.red::after {
+    background: var(--red);
+}
+
+.blue::after {
+    background: var(--blue);
+}
+
+.card-icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.card-number {
+    font-size: 32px;
+    font-weight: bold;
+
+    margin-top: 8px;
+}
+
+.card-detail {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* PANELS */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.3fr 1fr;
+
+    gap: 25px;
+
+    margin-top: 25px;
+}
+
+.panel {
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.07);
+
+    animation: cardAppear 1s ease both;
+}
+
+.panel h3 {
+    margin-bottom: 20px;
+    color: var(--green);
+}
+
+/* FEED */
+
+.feed-number {
+    font-size: 38px;
+    font-weight: bold;
+}
+
+.progress {
+    height: 15px;
+
+    background: #eeeeee;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 68%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffb300,
+            #ff8f00
+        );
+
+    border-radius: 20px;
+
+    animation: growBar 1.5s ease;
+}
+
+/* PERFORMANCE */
+
+.performance {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.performance-box {
+    background: var(--green-soft);
+
+    padding: 17px;
+
+    border-radius: 15px;
+}
+
+.performance-box span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+}
+
+.performance-box strong {
+    font-size: 22px;
+    color: var(--green);
+}
+
+/* ANIMATION */
+
+@keyframes floatChicken {
+
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(25px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes slideDown {
+
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes growBar {
+
+    from {
+        width: 0;
+    }
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* PHONE */
+
+@media (max-width: 550px) {
+
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .performance {
+        grid-template-columns: 1fr;
+    }
+}
