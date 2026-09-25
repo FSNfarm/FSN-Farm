@@ -1,4 +1,14 @@
-// =============================================
+// ================================
+// SUPABASE CONFIGURATION
+// ================================
+
+const SUPABASE_URL = "https://wdxhbnffddbjvljqwdsn.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_0QshMmZk2xHqjOndQxKEnw_eigTr";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);// =============================================
 // FSN FARM
 // Poultry Farm Management System
 // =============================================
