@@ -7,7 +7,95 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body><!-- ============================= -->
+<!-- FSN FARM LOGIN PAGE -->
+<!-- ============================= -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            🐔
+        </div>
+
+        <h1>FSN FARM</h1>
+        <p class="login-subtitle">
+            Poultry Farm Management System
+        </p>
+
+        <div id="loginMessage"></div>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="loginEmail">
+                    Username / Email
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Masukkan email"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Masukkan password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="toggle-password"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                id="loginButton"
+                class="login-button"
+            >
+                Masuk ke Dashboard
+            </button>
+
+        </form>
+
+        <div class="login-security">
+            🔒 Secure Farm Management
+        </div>
+
+        <p class="login-footer">
+            FSN Farm Management System
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- DASHBOARD UTAMA -->
+<!-- ============================= -->
+
+<div id="farmApp" style="display:none;">
 
 <div class="app">
 
@@ -342,5 +430,6 @@
 
 <script src="script.js"></script>
 
-</body>
+</div>
+<!-- END FARM APP --></body>
 </html>
