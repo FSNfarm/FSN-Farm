@@ -5,16 +5,260 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>FSN Farm</title>
+  <title>FSN Farm | Poultry Management</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <h1>FSN Farm</h1>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <p>Selamat datang di website FSN Farm.</p>
+  <header class="header">
+
+    <div class="logo">
+
+      <div class="logo-icon">
+        🐔
+      </div>
+
+      <div>
+        <h1>FSN FARM</h1>
+        <p>Poultry Farm Management System</p>
+      </div>
+
+    </div>
+
+    <div class="date" id="currentDate">
+      Memuat tanggal...
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h2>Dashboard Peternakan 🐣</h2>
+
+      <p>
+        Pantau populasi, mortalitas, pakan,
+        performa dan kesiapan panen dalam satu dashboard.
+      </p>
+
+    </section>
+
+
+    <!-- =========================
+         STATISTIK UTAMA
+    ========================== -->
+
+    <section class="stats">
+
+      <!-- POPULASI -->
+
+      <div class="card green">
+
+        <div class="card-icon">
+          🐔
+        </div>
+
+        <div class="card-title">
+          AYAM HIDUP
+        </div>
+
+        <div class="card-number" id="liveChicken">
+          4.872
+        </div>
+
+        <div class="card-detail">
+          Dari 5.000 DOC
+        </div>
+
+      </div>
+
+
+      <!-- PAKAN -->
+
+      <div class="card orange">
+
+        <div class="card-icon">
+          🌾
+        </div>
+
+        <div class="card-title">
+          STOK PAKAN
+        </div>
+
+        <div class="card-number" id="feedStock">
+          2.450 kg
+        </div>
+
+        <div class="card-detail">
+          Kondisi stok aman
+        </div>
+
+      </div>
+
+
+      <!-- KEMATIAN -->
+
+      <div class="card red">
+
+        <div class="card-icon">
+          📉
+        </div>
+
+        <div class="card-title">
+          TOTAL KEMATIAN
+        </div>
+
+        <div class="card-number" id="deadChicken">
+          128
+        </div>
+
+        <div class="card-detail">
+          Mortalitas 2,56%
+        </div>
+
+      </div>
+
+
+      <!-- PANEN -->
+
+      <div class="card blue">
+
+        <div class="card-icon">
+          🚚
+        </div>
+
+        <div class="card-title">
+          SIAP PANEN
+        </div>
+
+        <div class="card-number" id="harvestChicken">
+          3.950
+        </div>
+
+        <div class="card-detail">
+          Target ≥ 1,80 kg
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PANEL BAWAH
+    ========================== -->
+
+    <section class="dashboard-grid">
+
+
+      <!-- STOK PAKAN -->
+
+      <div class="panel">
+
+        <h3>🌾 Persediaan Pakan</h3>
+
+        <p>Stok pakan tersedia</p>
+
+        <div class="feed-number">
+          2.450 kg
+        </div>
+
+        <div class="progress">
+
+          <div class="progress-bar">
+          </div>
+
+        </div>
+
+        <p style="margin-top: 12px; color:#78909c;">
+          68% dari kapasitas penyimpanan
+        </p>
+
+      </div>
+
+
+      <!-- PERFORMA -->
+
+      <div class="panel">
+
+        <h3>📊 Performa Ternak</h3>
+
+        <div class="performance">
+
+
+          <div class="performance-box">
+
+            <span>
+              Mortalitas
+            </span>
+
+            <strong>
+              2,56%
+            </strong>
+
+          </div>
+
+
+          <div class="performance-box">
+
+            <span>
+              FCR
+            </span>
+
+            <strong>
+              1,58
+            </strong>
+
+          </div>
+
+
+          <div class="performance-box">
+
+            <span>
+              Bobot Rata-rata
+            </span>
+
+            <strong>
+              1,92 kg
+            </strong>
+
+          </div>
+
+
+          <div class="performance-box">
+
+            <span>
+              Umur Ayam
+            </span>
+
+            <strong>
+              31 hari
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
 
   <script src="script.js"></script>
 
