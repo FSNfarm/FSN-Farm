@@ -373,9 +373,9 @@ document
 // START SYSTEM
 // ==========================
 
-showCurrentDate();
+// showCurrentDate();
 
-loadFarmData();
+// loadFarmData();
 const hamburger = document.getElementById("hamburger");
 const sidebar = document.getElementById("sidebar");
 
