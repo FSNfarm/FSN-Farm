@@ -384,3 +384,56 @@ if (hamburger && sidebar) {
     sidebar.classList.toggle("open");
   });
 }
+// =====================================
+// LOGIN SUPABASE - FSN FARM
+// =====================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loginForm = document.getElementById("loginForm");
+
+  if (!loginForm) {
+    console.error("Form login tidak ditemukan");
+    return;
+  }
+
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = document
+      .getElementById("loginEmail")
+      .value
+      .trim();
+
+    const password = document
+      .getElementById("loginPassword")
+      .value;
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+      console.error("Login gagal:", error);
+      alert("Login gagal: " + error.message);
+      return;
+    }
+
+    console.log("Login berhasil:", data);
+
+    // Sembunyikan halaman login
+    document.getElementById("loginPage").style.display = "none";
+
+    // Tampilkan aplikasi
+    const farmApp = document.getElementById("farmApp");
+
+    if (farmApp) {
+      farmApp.style.display = "block";
+    }
+
+    alert("Login berhasil!");
+  });
+
+});
