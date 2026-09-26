@@ -384,77 +384,78 @@ if (hamburger && sidebar) {
     sidebar.classList.toggle("open");
   });
 }
-// =====================================
+// ===============================
 // LOGIN SUPABASE - FSN FARM
-// =====================================
+// ===============================
 
-const loginForm = document.getElementById("loginForm");
+document.addEventListener("DOMContentLoaded", async () => {
 
-if (loginForm) {
+    const loginPage = document.getElementById("loginPage");
+    const farmApp = document.getElementById("farmApp");
+    const loginForm = document.getElementById("loginForm");
 
-  loginForm.addEventListener("submit", async function(event) {
+    function showDashboard() {
+        if (loginPage) {
+            loginPage.style.display = "none";
+        }
 
-    // CEGAH FORM REFRESH HALAMAN
-    event.preventDefault();
-
-    const emailInput = document.getElementById("loginEmail");
-    const passwordInput = document.getElementById("loginPassword");
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    console.log("Tombol login ditekan");
-    console.log("Email:", email);
-
-    try {
-
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-      if (error) {
-        console.error("SUPABASE ERROR:", error);
-        alert("Login gagal: " + error.message);
-        return;
-      }
-
-      console.log("LOGIN BERHASIL:", data);
-
-      alert("Login berhasil!");
-
-      const loginPage =
-        document.getElementById("loginPage");
-
-      const farmApp =
-        document.getElementById("farmApp");
-
-      if (loginPage) {
-        loginPage.style.display = "none";
-      }
-
-      if (farmApp) {
-        farmApp.style.display = "block";
-      }
-
-    } catch (error) {
-
-      console.error("ERROR:", error);
-
-      alert(
-        "Terjadi kesalahan: " +
-        error.message
-      );
-
+        if (farmApp) {
+            farmApp.style.display = "block";
+        }
     }
 
-  });
+    function showLogin() {
+        if (loginPage) {
+            loginPage.style.display = "flex";
+        }
 
-} else {
+        if (farmApp) {
+            farmApp.style.display = "none";
+        }
+    }
 
-  console.error(
-    "ERROR: loginForm tidak ditemukan"
-  );
+    // CEK APAKAH USER SUDAH LOGIN
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
 
-}
+    if (session) {
+        console.log("Session ditemukan:", session);
+        showDashboard();
+    } else {
+        console.log("Belum login");
+        showLogin();
+    }
+
+    // PROSES LOGIN
+    if (loginForm) {
+
+        loginForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById("loginEmail").value.trim();
+
+            const password =
+                document.getElementById("loginPassword").value;
+
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+            if (error) {
+                console.error("Login gagal:", error);
+                alert("Login gagal: " + error.message);
+                return;
+            }
+
+            console.log("Login berhasil:", data);
+
+            showDashboard();
+        });
+    }
+
+});
