@@ -388,52 +388,73 @@ if (hamburger && sidebar) {
 // LOGIN SUPABASE - FSN FARM
 // =====================================
 
-document.addEventListener("DOMContentLoaded", () => {
+const loginForm = document.getElementById("loginForm");
 
-  const loginForm = document.getElementById("loginForm");
+if (loginForm) {
 
-  if (!loginForm) {
-    console.error("Form login tidak ditemukan");
-    return;
-  }
+  loginForm.addEventListener("submit", async function(event) {
 
-  loginForm.addEventListener("submit", async (event) => {
+    // CEGAH FORM REFRESH HALAMAN
     event.preventDefault();
 
-    const email = document
-      .getElementById("loginEmail")
-      .value
-      .trim();
+    const emailInput = document.getElementById("loginEmail");
+    const passwordInput = document.getElementById("loginPassword");
 
-    const password = document
-      .getElementById("loginPassword")
-      .value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+    console.log("Tombol login ditekan");
+    console.log("Email:", email);
 
-    if (error) {
-      console.error("Login gagal:", error);
-      alert("Login gagal: " + error.message);
-      return;
+    try {
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+        console.error("SUPABASE ERROR:", error);
+        alert("Login gagal: " + error.message);
+        return;
+      }
+
+      console.log("LOGIN BERHASIL:", data);
+
+      alert("Login berhasil!");
+
+      const loginPage =
+        document.getElementById("loginPage");
+
+      const farmApp =
+        document.getElementById("farmApp");
+
+      if (loginPage) {
+        loginPage.style.display = "none";
+      }
+
+      if (farmApp) {
+        farmApp.style.display = "block";
+      }
+
+    } catch (error) {
+
+      console.error("ERROR:", error);
+
+      alert(
+        "Terjadi kesalahan: " +
+        error.message
+      );
+
     }
 
-    console.log("Login berhasil:", data);
-
-    // Sembunyikan halaman login
-    document.getElementById("loginPage").style.display = "none";
-
-    // Tampilkan aplikasi
-    const farmApp = document.getElementById("farmApp");
-
-    if (farmApp) {
-      farmApp.style.display = "block";
-    }
-
-    alert("Login berhasil!");
   });
 
-});
+} else {
+
+  console.error(
+    "ERROR: loginForm tidak ditemukan"
+  );
+
+}
