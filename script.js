@@ -93,64 +93,53 @@ document.addEventListener("DOMContentLoaded", function () {
         showLogin();
 
     }
+/* =====================================================
+   LOGIN FSN FARM
+   ===================================================== */
 
+const loginButton = document.getElementById("loginButton");
 
+if (loginButton) {
 
-    /* =====================================================
-       LOGIN
-       ===================================================== */
+    loginButton.addEventListener("click", function () {
 
-    if (loginForm) {
+        const email = loginEmail.value.trim();
+        const password = loginPassword.value.trim();
 
-        loginForm.addEventListener(
-            "submit",
-            function (event) {
+        console.log("Login button clicked");
 
-                event.preventDefault();
+        if (
+            email === ADMIN_EMAIL &&
+            password === ADMIN_PASSWORD
+        ) {
 
-                const email =
-                    loginEmail.value.trim();
+            localStorage.setItem(
+                "fsnFarmLoggedIn",
+                "true"
+            );
 
-                const password =
-                    loginPassword.value.trim();
-
-
-                if (
-                    email === ADMIN_EMAIL &&
-                    password === ADMIN_PASSWORD
-                ) {
-
-                    localStorage.setItem(
-                        "fsnFarmLoggedIn",
-                        "true"
-                    );
-
-                    if (loginError) {
-                        loginError.style.display = "none";
-                    }
-
-                    showDashboard();
-
-                } else {
-
-                    if (loginError) {
-
-                        loginError.style.display = "block";
-
-                        loginError.textContent =
-                            "Email atau password salah.";
-
-                    }
-
-                }
-
+            if (loginError) {
+                loginError.style.display = "none";
             }
-        );
 
-    }
+            loginPage.style.display = "none";
+            farmApp.style.display = "block";
 
+            loadFarmData();
 
+        } else {
 
+            if (loginError) {
+                loginError.style.display = "block";
+                loginError.textContent =
+                    "Email atau password salah.";
+            }
+
+        }
+
+    });
+
+}
     /* =====================================================
        LOGOUT
        ===================================================== */
