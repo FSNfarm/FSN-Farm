@@ -815,3 +815,37 @@ input {
         font-size: 25px;
     }
 }
+/* ==============================
+   FSN FARM - NEW LOGO
+============================== */
+
+.brand-logo {
+    width: 75px;
+    height: 75px;
+    background: transparent;
+    border-radius: 18px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+
+    animation: fsnLogoFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 5px 8px rgba(0,0,0,0.20));
+}
+
+@keyframes fsnLogoFloat {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-5px) scale(1.05);
+    }
+}
