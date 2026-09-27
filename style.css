@@ -849,3 +849,50 @@ input {
         transform: translateY(-5px) scale(1.05);
     }
 }
+/* ==================================
+   FSN FARM SIDEBAR LOGO - FINAL
+================================== */
+
+.sidebar .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar .brand-logo {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent !important;
+    border-radius: 12px;
+    overflow: hidden !important;
+}
+
+.sidebar .brand-logo img {
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center;
+
+    display: block;
+
+    animation: fsnLogoFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,.20));
+}
+
+@keyframes fsnLogoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
