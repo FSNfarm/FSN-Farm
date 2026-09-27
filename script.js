@@ -1,1252 +1,1845 @@
 /* =========================================================
    FSN FARM MANAGEMENT SYSTEM
-   SCRIPT.JS
+   FINAL STYLE.CSS
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("FSN Farm System Loaded");
+/* =========================================================
+   1. RESET & ROOT
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --green: #138a55;
+    --green-dark: #08653d;
+    --green-deep: #064d30;
+    --green-light: #e9f7ef;
+    --green-soft: #f2faf6;
+
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
+
+    --background: #f3f7f5;
+    --surface: #ffffff;
+
+    --text: #17251e;
+    --text-soft: #718078;
+    --border: #e4ece7;
+
+    --sidebar-width: 270px;
+
+    --radius: 22px;
+    --radius-small: 14px;
+
+    --shadow:
+        0 8px 30px rgba(22, 70, 45, 0.08);
+
+    --shadow-hover:
+        0 14px 35px rgba(22, 70, 45, 0.13);
+}
 
 
-    /* =====================================================
-       1. CONFIGURATION
-       ===================================================== */
-
-    /*
-      LOGIN SEMENTARA
-
-      Ganti email dan password ini sesuai keinginan.
-
-      Nanti login bisa kita pindahkan ke Supabase Authentication.
-    */
-
-    const ADMIN_EMAIL = "admin@fsnfarm.com";
-    const ADMIN_PASSWORD = "admin123";
+html {
+    scroll-behavior: smooth;
+}
 
 
-    /*
-      SUPABASE
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
 
-      Untuk sementara dikosongkan agar website tetap bisa berjalan
-      menggunakan localStorage.
-
-      Nanti isi dengan Project URL dan Anon Key Supabase.
-    */
-
-    const SUPABASE_URL = "";
-    const SUPABASE_ANON_KEY = "";
-
-    let supabaseClient = null;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+}
 
 
-    if (
-        SUPABASE_URL &&
-        SUPABASE_ANON_KEY &&
-        typeof window.supabase !== "undefined"
-    ) {
+button,
+input {
+    font: inherit;
+}
 
-        supabaseClient = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
+
+button {
+    border: none;
+}
+
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+
+/* =========================================================
+   2. LOGIN PAGE
+   ========================================================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 20px;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(62, 190, 119, 0.28),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(245, 158, 11, 0.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #064b2e,
+            #087447 50%,
+            #0b8d55
+        );
+}
+
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+
+    padding: 38px;
+
+    background: rgba(255, 255, 255, 0.98);
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.22);
+
+    animation: loginAppear 0.5s ease;
+}
+
+
+@keyframes loginAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+
+.login-logo {
+    width: 125px;
+    height: 125px;
+
+    object-fit: contain;
+
+    margin: 0 auto 14px;
+
+    filter:
+        drop-shadow(
+            0 10px 12px rgba(0, 0, 0, 0.12)
+        );
+}
+
+
+.login-brand h1 {
+    color: var(--green-dark);
+
+    font-size: 31px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 6px;
+}
+
+
+.login-brand p {
+    color: var(--text-soft);
+
+    font-size: 14px;
+}
+
+
+.input-group {
+    margin-bottom: 19px;
+}
+
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #34473d;
+
+    font-size: 14px;
+    font-weight: 650;
+}
+
+
+.input-group input {
+    width: 100%;
+    height: 52px;
+
+    padding: 0 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
+
+    background: #f9fbfa;
+
+    color: var(--text);
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+
+.input-group input::placeholder {
+    color: #a5afa9;
+}
+
+
+.input-group input:focus {
+    background: white;
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 4px rgba(19, 138, 85, 0.1);
+}
+
+
+.login-btn {
+    width: 100%;
+    height: 53px;
+
+    margin-top: 5px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green-dark),
+            #15965d
         );
 
-        console.log("Supabase connected");
+    color: white;
 
-    } else {
+    font-weight: 750;
+    font-size: 15px;
 
-        console.log(
-            "Supabase belum dikonfigurasi. Menggunakan localStorage."
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 22px rgba(8, 101, 61, 0.23);
+
+    transition: 0.2s ease;
+}
+
+
+.login-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 28px rgba(8, 101, 61, 0.3);
+}
+
+
+.login-btn:active {
+    transform: scale(0.99);
+}
+
+
+.login-error {
+    display: none;
+
+    margin-top: 14px;
+    padding: 11px 14px;
+
+    border-radius: 11px;
+
+    background: #fff0f0;
+
+    color: #c33c3c;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+.login-footer {
+    margin-top: 28px;
+    padding-top: 21px;
+
+    border-top: 1px solid var(--border);
+
+    text-align: center;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+.login-footer strong {
+    color: var(--green-dark);
+}
+
+
+
+/* =========================================================
+   3. APPLICATION
+   ========================================================= */
+
+.farm-app {
+    display: none;
+}
+
+
+.app-visible {
+    display: block;
+}
+
+
+
+/* =========================================================
+   4. SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: var(--sidebar-width);
+
+    padding: 25px 18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #087347 0%,
+            #075f3b 55%,
+            #064c31 100%
         );
 
-    }
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 1000;
+
+    overflow-y: auto;
+
+    box-shadow:
+        5px 0 25px rgba(0, 0, 0, 0.08);
+}
+
+
+.sidebar-brand {
+    min-height: 85px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 5px 8px 22px;
+
+    margin-bottom: 10px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.09);
+}
+
+
+.sidebar-logo {
+    width: 62px;
+    height: 62px;
+
+    object-fit: contain;
+
+    flex-shrink: 0;
+
+    filter:
+        drop-shadow(
+            0 5px 6px rgba(0, 0, 0, 0.2)
+        );
+}
+
+
+.sidebar-brand h2 {
+    font-size: 19px;
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+}
+
+
+.sidebar-brand p {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: rgba(255, 255, 255, 0.65);
+}
 
 
 
-    /* =====================================================
-       2. ELEMENT SELECTORS
-       ===================================================== */
+/* =========================================================
+   5. SIDEBAR MENU
+   ========================================================= */
 
-    const loginPage = document.getElementById("loginPage");
-    const farmApp = document.getElementById("farmApp");
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
 
-    const loginForm = document.getElementById("loginForm");
-    const loginEmail = document.getElementById("loginEmail");
-    const loginPassword = document.getElementById("loginPassword");
-    const loginError = document.getElementById("loginError");
+    gap: 7px;
 
-    const currentDate = document.getElementById("currentDate");
-
-    const sidebar = document.getElementById("sidebar");
-
-    const hamburger =
-        document.getElementById("hamburger") ||
-        document.querySelector(".menu-toggle");
-
-    const saveButton =
-        document.getElementById("saveDailyData") ||
-        document.querySelector(".save-button");
-
-    const successMessage =
-        document.getElementById("successMessage");
+    flex: 1;
+}
 
 
-    /* INPUT */
+.menu-item {
+    width: 100%;
 
-    const initialChicken =
-        document.getElementById("initialChicken");
+    min-height: 51px;
 
-    const dailyDeath =
-        document.getElementById("dailyDeath");
+    display: flex;
+    align-items: center;
 
-    const initialFeed =
-        document.getElementById("initialFeed");
+    gap: 14px;
 
-    const feedIncoming =
-        document.getElementById("feedIncoming");
+    padding: 11px 15px;
 
-    const feedUsed =
-        document.getElementById("feedUsed");
+    border-radius: 14px;
 
-    const averageWeight =
-        document.getElementById("averageWeight");
+    background: transparent;
 
+    color: rgba(255, 255, 255, 0.76);
 
-    /* DASHBOARD OUTPUT */
+    font-size: 14px;
+    font-weight: 500;
 
-    const liveChicken =
-        document.getElementById("liveChicken");
+    text-align: left;
 
-    const feedStock =
-        document.getElementById("feedStock");
+    cursor: pointer;
 
-    const deadChicken =
-        document.getElementById("deadChicken");
-
-    const harvestChicken =
-        document.getElementById("harvestChicken");
-
-    const feedPanelValue =
-        document.getElementById("feedPanelValue");
-
-    const mortalityRate =
-        document.getElementById("mortalityRate");
-
-    const weightValue =
-        document.getElementById("weightValue");
+    transition: 0.2s ease;
+}
 
 
+.menu-item:hover {
+    background:
+        rgba(255, 255, 255, 0.09);
 
-    /* =====================================================
-       3. HELPER FUNCTIONS
-       ===================================================== */
+    color: white;
 
-    function number(value) {
-
-        const result = Number(value);
-
-        return Number.isFinite(result)
-            ? result
-            : 0;
-
-    }
+    transform: translateX(2px);
+}
 
 
-    function formatNumber(value) {
+.menu-item.active {
+    background: white;
 
-        return new Intl.NumberFormat("id-ID").format(
-            number(value)
+    color: var(--green-dark);
+
+    font-weight: 750;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+.menu-icon {
+    width: 24px;
+
+    text-align: center;
+
+    font-size: 19px;
+
+    flex-shrink: 0;
+}
+
+
+
+/* =========================================================
+   6. SIDEBAR STATUS
+   ========================================================= */
+
+.sidebar-status {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin-top: 22px;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+}
+
+
+.status-light {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #5cf09d;
+
+    box-shadow:
+        0 0 0 5px rgba(92, 240, 157, 0.12);
+
+    flex-shrink: 0;
+}
+
+
+.sidebar-status strong {
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.sidebar-status small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 10px;
+}
+
+
+.logout-button {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    color:
+        rgba(255, 255, 255, 0.8);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.logout-button:hover {
+    background:
+        rgba(255, 255, 255, 0.15);
+
+    color: white;
+}
+
+
+
+/* =========================================================
+   7. MAIN AREA
+   ========================================================= */
+
+.main-area {
+    min-height: 100vh;
+
+    margin-left: var(--sidebar-width);
+}
+
+
+
+/* =========================================================
+   8. TOPBAR
+   ========================================================= */
+
+.topbar {
+    position: sticky;
+
+    top: 0;
+
+    min-height: 88px;
+
+    padding: 16px 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background:
+        rgba(255, 255, 255, 0.95);
+
+    border-bottom:
+        1px solid var(--border);
+
+    backdrop-filter: blur(15px);
+
+    z-index: 500;
+}
+
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.topbar-left h1 {
+    font-size: 25px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+
+.topbar-left p {
+    margin-top: 5px;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+}
+
+
+.menu-toggle {
+    display: none;
+
+    width: 43px;
+    height: 43px;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: var(--green-light);
+
+    color: var(--green-dark);
+
+    font-size: 21px;
+
+    cursor: pointer;
+}
+
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+.notification-btn {
+    position: relative;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 13px;
+
+    background: #f5f8f6;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+.notification-count {
+    position: absolute;
+
+    right: -3px;
+    top: -4px;
+
+    min-width: 18px;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--red);
+
+    color: white;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.admin-avatar {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #28a96a,
+            #62d293
         );
 
-    }
+    color: white;
+
+    font-weight: 750;
+}
 
 
-    function formatDecimal(value, digits = 2) {
+.admin-info strong {
+    display: block;
 
-        return number(value).toLocaleString(
-            "id-ID",
-            {
-                minimumFractionDigits: digits,
-                maximumFractionDigits: digits
-            }
+    font-size: 14px;
+}
+
+
+.admin-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--text-soft);
+
+    font-size: 11px;
+}
+
+
+
+/* =========================================================
+   9. DASHBOARD CONTENT
+   ========================================================= */
+
+.dashboard-content {
+    width: 100%;
+
+    max-width: 1550px;
+
+    margin: 0 auto;
+
+    padding: 30px 32px 50px;
+}
+
+
+
+/* =========================================================
+   10. HERO
+   ========================================================= */
+
+.hero-card {
+    position: relative;
+
+    min-height: 220px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 36px 42px;
+
+    overflow: hidden;
+
+    border-radius: 26px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #087548 0%,
+            #15975b 55%,
+            #55bf7f 100%
         );
 
-    }
+    color: white;
+
+    box-shadow:
+        0 15px 35px rgba(8, 101, 61, 0.16);
+}
+
+
+.hero-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    right: -100px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+}
+
+
+.hero-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: 170px;
+    bottom: -170px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+}
+
+
+.hero-content {
+    position: relative;
+
+    max-width: 720px;
+
+    z-index: 2;
+}
+
+
+.hero-badge {
+    display: inline-flex;
+
+    padding: 8px 13px;
+
+    margin-bottom: 16px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, 0.13);
+
+    font-size: 11px;
+    font-weight: 650;
+
+    letter-spacing: 0.8px;
+}
+
+
+.hero-content h2 {
+    font-size: clamp(28px, 3vw, 40px);
+
+    line-height: 1.15;
+
+    font-weight: 800;
+
+    margin-bottom: 13px;
+}
+
+
+.hero-content h2 span {
+    color: #ffe48b;
+}
+
+
+.hero-content p {
+    max-width: 670px;
+
+    color:
+        rgba(255, 255, 255, 0.88);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
 
 
 
-    /* =====================================================
-       4. CURRENT DATE
-       ===================================================== */
+/* LOGO HERO BARU */
 
-    function updateDate() {
+.hero-logo {
+    position: relative;
 
-        if (!currentDate) return;
+    width: 175px;
+    height: 160px;
 
-        const today = new Date();
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        currentDate.textContent =
-            today.toLocaleDateString(
-                "id-ID",
-                {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric"
-                }
-            );
+    flex-shrink: 0;
 
-    }
-
-    updateDate();
+    z-index: 2;
+}
 
 
+.hero-logo img {
+    width: 100%;
+    height: 100%;
 
-    /* =====================================================
-       5. LOGIN SYSTEM
-       ===================================================== */
+    object-fit: contain;
 
-    function showLogin() {
-
-        if (loginPage) {
-            loginPage.style.display = "flex";
-        }
-
-        if (farmApp) {
-            farmApp.style.display = "none";
-        }
-
-    }
-
-
-    function showDashboard() {
-
-        if (loginPage) {
-            loginPage.style.display = "none";
-        }
-
-        if (farmApp) {
-            farmApp.style.display = "block";
-        }
-
-    }
-
-
-    /*
-       Periksa apakah sebelumnya sudah login.
-    */
-
-    const loginStatus =
-        localStorage.getItem("fsnFarmLoggedIn");
-
-
-    if (loginStatus === "true") {
-
-        showDashboard();
-
-    } else {
-
-        showLogin();
-
-    }
-
-
-
-    if (loginForm) {
-
-        loginForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-                const email =
-                    loginEmail
-                        ? loginEmail.value.trim()
-                        : "";
-
-                const password =
-                    loginPassword
-                        ? loginPassword.value
-                        : "";
-
-
-                if (
-                    email === ADMIN_EMAIL &&
-                    password === ADMIN_PASSWORD
-                ) {
-
-                    localStorage.setItem(
-                        "fsnFarmLoggedIn",
-                        "true"
-                    );
-
-                    if (loginError) {
-                        loginError.style.display = "none";
-                    }
-
-                    showDashboard();
-
-                    loadFarmData();
-
-                } else {
-
-                    if (loginError) {
-
-                        loginError.style.display =
-                            "block";
-
-                        loginError.textContent =
-                            "Email atau password salah.";
-
-                    }
-
-                }
-
-            }
+    filter:
+        drop-shadow(
+            0 13px 15px rgba(0, 0, 0, 0.18)
         );
 
+    animation:
+        logoFloat 4s ease-in-out infinite;
+}
+
+
+@keyframes logoFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
     }
 
+    50% {
+        transform: translateY(-7px);
+    }
+
+}
 
 
-    /* =====================================================
-       6. LOGOUT FUNCTION
-       ===================================================== */
 
-    window.logoutFSNFarm = function () {
+/* =========================================================
+   11. STAT CARDS
+   ========================================================= */
 
-        localStorage.removeItem(
-            "fsnFarmLoggedIn"
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-top: 24px;
+}
+
+
+.stat-card {
+    position: relative;
+
+    min-height: 135px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: white;
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+.stat-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 4px;
+}
+
+
+.stat-green::before {
+    background: #2dbd73;
+}
+
+
+.stat-orange::before {
+    background: var(--orange);
+}
+
+
+.stat-red::before {
+    background: var(--red);
+}
+
+
+.stat-blue::before {
+    background: var(--blue);
+}
+
+
+.stat-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background: var(--green-light);
+
+    font-size: 27px;
+
+    flex-shrink: 0;
+}
+
+
+.stat-data {
+    min-width: 0;
+}
+
+
+.stat-title {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+}
+
+
+.stat-data strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--text);
+
+    font-size: 25px;
+    font-weight: 800;
+
+    line-height: 1.1;
+}
+
+
+.stat-data small {
+    color: var(--text-soft);
+
+    font-size: 10px;
+}
+
+
+
+/* =========================================================
+   12. PANELS
+   ========================================================= */
+
+.info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+
+    margin-top: 22px;
+}
+
+
+.panel {
+    padding: 25px;
+
+    background: white;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+}
+
+
+.panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 24px;
+}
+
+
+.panel-header h3 {
+    margin-bottom: 5px;
+
+    font-size: 17px;
+    font-weight: 750;
+}
+
+
+.panel-header p {
+    color: var(--text-soft);
+
+    font-size: 11px;
+}
+
+
+.status-badge {
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: var(--green-light);
+
+    color: var(--green-dark);
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+
+/* =========================================================
+   13. FEED PANEL
+   ========================================================= */
+
+.feed-total {
+    display: flex;
+    align-items: baseline;
+
+    gap: 7px;
+
+    margin-bottom: 17px;
+}
+
+
+.feed-total strong {
+    color: var(--green-dark);
+
+    font-size: 37px;
+    font-weight: 800;
+}
+
+
+.feed-total span {
+    color: var(--text-soft);
+
+    font-size: 12px;
+}
+
+
+.feed-progress {
+    width: 100%;
+    height: 11px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background: #edf2ef;
+}
+
+
+.feed-progress-bar {
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f4aa25,
+            #ffc75a
         );
 
-        showLogin();
-
-        if (loginPassword) {
-            loginPassword.value = "";
-        }
-
-    };
+    transition: width 0.5s ease;
+}
 
 
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
 
-    /* =====================================================
-       7. MOBILE SIDEBAR
-       ===================================================== */
+    margin-top: 8px;
 
-    if (hamburger && sidebar) {
+    color: var(--text-soft);
 
-        hamburger.addEventListener(
-            "click",
-            function () {
+    font-size: 10px;
+}
 
-                sidebar.classList.toggle("open");
 
-            }
+
+/* =========================================================
+   14. PERFORMANCE
+   ========================================================= */
+
+.performance-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.performance-box {
+    min-height: 82px;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    background: #f6f9f7;
+}
+
+
+.performance-box span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--text-soft);
+
+    font-size: 11px;
+}
+
+
+.performance-box strong {
+    color: var(--green-dark);
+
+    font-size: 18px;
+}
+
+
+
+/* =========================================================
+   15. INPUT PANEL
+   ========================================================= */
+
+.input-panel {
+    margin-top: 22px;
+}
+
+
+.active-system {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 11px;
+
+    border-radius: 20px;
+
+    background: var(--green-light);
+
+    color: var(--green-dark);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+.active-system span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #25b96b;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 185, 107, 0.12);
+}
+
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.form-field label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #34463d;
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+
+.form-field input {
+    width: 100%;
+    height: 49px;
+
+    padding: 0 15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: #f9fbfa;
+
+    color: var(--text);
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+
+.form-field input:focus {
+    background: white;
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 4px rgba(19, 138, 85, 0.09);
+}
+
+
+.form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 22px;
+}
+
+
+.save-button {
+    min-width: 220px;
+
+    padding: 14px 20px;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green-dark),
+            #15975d
         );
 
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 9px 20px rgba(8, 101, 61, 0.2);
+
+    transition: 0.2s ease;
+}
+
+
+.save-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(8, 101, 61, 0.28);
+}
+
+
+.success-message {
+    display: none;
+
+    margin-top: 17px;
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    background: #eaf8f0;
+
+    color: var(--green-dark);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.error-message {
+    display: none;
+
+    margin-top: 14px;
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background: #fff0f0;
+
+    color: #c53d3d;
+
+    font-size: 12px;
+}
+
+
+
+/* =========================================================
+   16. HISTORY TABLE
+   ========================================================= */
+
+.recent-panel {
+    margin-top: 22px;
+}
+
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.farm-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 720px;
+}
+
+
+.farm-table th {
+    padding: 13px 14px;
+
+    background: #f5f8f6;
+
+    color: var(--text-soft);
+
+    font-size: 11px;
+    font-weight: 650;
+
+    text-align: left;
+}
+
+
+.farm-table th:first-child {
+    border-radius: 11px 0 0 11px;
+}
+
+
+.farm-table th:last-child {
+    border-radius: 0 11px 11px 0;
+}
+
+
+.farm-table td {
+    padding: 15px 14px;
+
+    border-bottom:
+        1px solid #edf1ef;
+
+    font-size: 12px;
+}
+
+
+.empty-row td {
+    padding: 35px;
+
+    text-align: center;
+
+    color: var(--text-soft);
+}
+
+
+
+/* =========================================================
+   17. SIDEBAR OVERLAY
+   ========================================================= */
+
+.sidebar-overlay {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.4);
+
+    z-index: 900;
+}
+
+
+
+/* =========================================================
+   18. TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    :root {
+        --sidebar-width: 235px;
     }
 
 
-    /*
-      Tutup sidebar setelah menu ditekan
-      pada layar kecil.
-    */
-
-    const menuItems =
-        document.querySelectorAll(".menu-item");
-
-
-    menuItems.forEach((item) => {
-
-        item.addEventListener(
-            "click",
-            function () {
-
-                menuItems.forEach((menu) => {
-                    menu.classList.remove("active");
-                });
-
-                this.classList.add("active");
-
-
-                if (
-                    window.innerWidth <= 800 &&
-                    sidebar
-                ) {
-
-                    sidebar.classList.remove("open");
-
-                }
-
-            }
-        );
-
-    });
-
-
-
-    /* =====================================================
-       8. FARM CALCULATION
-       ===================================================== */
-
-    function calculateFarm(data) {
-
-        const population =
-            number(data.initialChicken);
-
-        const deaths =
-            number(data.dailyDeath);
-
-        const startingFeed =
-            number(data.initialFeed);
-
-        const incomingFeed =
-            number(data.feedIncoming);
-
-        const usedFeed =
-            number(data.feedUsed);
-
-        const weight =
-            number(data.averageWeight);
-
-
-        /*
-           AYAM HIDUP
-        */
-
-        const alive =
-            Math.max(
-                population - deaths,
-                0
-            );
-
-
-        /*
-           STOK PAKAN
-
-           stok awal
-           + pakan masuk
-           - pakan digunakan
-        */
-
-        const remainingFeed =
-            Math.max(
-                startingFeed +
-                incomingFeed -
-                usedFeed,
-                0
-            );
-
-
-        /*
-           MORTALITAS
-        */
-
-        let mortality = 0;
-
-        if (population > 0) {
-
-            mortality =
-                (deaths / population) * 100;
-
-        }
-
-
-        /*
-           ESTIMASI SIAP PANEN
-
-           Untuk sekarang sama dengan ayam hidup.
-
-           Nanti dapat dibuat berdasarkan umur,
-           bobot dan target panen.
-        */
-
-        const harvest =
-            alive;
-
-
-        return {
-
-            alive,
-            remainingFeed,
-            mortality,
-            harvest,
-            weight
-
-        };
-
+    .sidebar {
+        padding-left: 14px;
+        padding-right: 14px;
     }
 
 
-
-    /* =====================================================
-       9. UPDATE DASHBOARD
-       ===================================================== */
-
-    function updateDashboard(data) {
-
-        const calculation =
-            calculateFarm(data);
-
-
-        if (liveChicken) {
-
-            liveChicken.textContent =
-                formatNumber(
-                    calculation.alive
-                );
-
-        }
-
-
-        if (deadChicken) {
-
-            deadChicken.textContent =
-                formatNumber(
-                    data.dailyDeath
-                );
-
-        }
-
-
-        if (feedStock) {
-
-            feedStock.textContent =
-                formatNumber(
-                    calculation.remainingFeed
-                ) + " kg";
-
-        }
-
-
-        if (harvestChicken) {
-
-            harvestChicken.textContent =
-                formatNumber(
-                    calculation.harvest
-                );
-
-        }
-
-
-        if (feedPanelValue) {
-
-            feedPanelValue.textContent =
-                formatNumber(
-                    calculation.remainingFeed
-                );
-
-        }
-
-
-        if (mortalityRate) {
-
-            mortalityRate.textContent =
-                formatDecimal(
-                    calculation.mortality
-                ) + "%";
-
-        }
-
-
-        if (weightValue) {
-
-            weightValue.textContent =
-                formatDecimal(
-                    calculation.weight
-                ) + " kg";
-
-        }
-
-
-        updateFeedProgress(
-            calculation.remainingFeed
-        );
-
+    .sidebar-brand h2 {
+        font-size: 16px;
     }
 
 
-
-    /* =====================================================
-       10. FEED PROGRESS
-       ===================================================== */
-
-    function updateFeedProgress(feed) {
-
-        const capacity = 5000;
-
-        let percentage =
-            (number(feed) / capacity) * 100;
-
-
-        percentage =
-            Math.max(
-                0,
-                Math.min(
-                    percentage,
-                    100
-                )
-            );
-
-
-        const progressBar =
-            document.querySelector(
-                ".progress-fill, .feed-progress-bar"
-            );
-
-
-        if (progressBar) {
-
-            progressBar.style.width =
-                percentage + "%";
-
-        }
-
+    .sidebar-logo {
+        width: 52px;
+        height: 52px;
     }
 
 
-
-    /* =====================================================
-       11. GET FORM DATA
-       ===================================================== */
-
-    function getFormData() {
-
-        return {
-
-            initialChicken:
-                number(
-                    initialChicken
-                        ? initialChicken.value
-                        : 0
-                ),
-
-            dailyDeath:
-                number(
-                    dailyDeath
-                        ? dailyDeath.value
-                        : 0
-                ),
-
-            initialFeed:
-                number(
-                    initialFeed
-                        ? initialFeed.value
-                        : 0
-                ),
-
-            feedIncoming:
-                number(
-                    feedIncoming
-                        ? feedIncoming.value
-                        : 0
-                ),
-
-            feedUsed:
-                number(
-                    feedUsed
-                        ? feedUsed.value
-                        : 0
-                ),
-
-            averageWeight:
-                number(
-                    averageWeight
-                        ? averageWeight.value
-                        : 0
-                ),
-
-            date:
-                new Date().toISOString(),
-
-            savedAt:
-                Date.now()
-
-        };
-
+    .dashboard-content {
+        padding:
+            25px 24px 45px;
     }
 
 
-
-    /* =====================================================
-       12. SAVE LOCAL DATA
-       ===================================================== */
-
-    function saveLocalData(data) {
-
-        /*
-           Data terbaru
-        */
-
-        localStorage.setItem(
-            "fsnFarmCurrentData",
-            JSON.stringify(data)
-        );
-
-
-        /*
-           History
-        */
-
-        let history = [];
-
-        try {
-
-            history =
-                JSON.parse(
-                    localStorage.getItem(
-                        "fsnFarmHistory"
-                    )
-                ) || [];
-
-        } catch (error) {
-
-            history = [];
-
-        }
-
-
-        history.unshift(data);
-
-
-        /*
-           Batasi history supaya browser
-           tidak menyimpan terlalu banyak.
-        */
-
-        if (history.length > 100) {
-
-            history =
-                history.slice(0, 100);
-
-        }
-
-
-        localStorage.setItem(
-            "fsnFarmHistory",
-            JSON.stringify(history)
-        );
-
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
 
+    .hero-logo {
+        width: 145px;
+        height: 140px;
+    }
 
-    /* =====================================================
-       13. SAVE TO SUPABASE
-       ===================================================== */
-
-    async function saveToSupabase(data) {
-
-        if (!supabaseClient) {
-
-            return {
-                success: false,
-                skipped: true
-            };
-
-        }
+}
 
 
-        try {
 
-            const calculation =
-                calculateFarm(data);
+/* =========================================================
+   19. MOBILE / IPAD PORTRAIT
+   ========================================================= */
 
+@media (max-width: 850px) {
 
-            const databaseData = {
+    .sidebar {
+        width: 270px;
 
-                initial_chicken:
-                    data.initialChicken,
+        transform:
+            translateX(-105%);
 
-                daily_death:
-                    data.dailyDeath,
-
-                initial_feed:
-                    data.initialFeed,
-
-                feed_incoming:
-                    data.feedIncoming,
-
-                feed_used:
-                    data.feedUsed,
-
-                average_weight:
-                    data.averageWeight,
-
-                live_chicken:
-                    calculation.alive,
-
-                feed_stock:
-                    calculation.remainingFeed,
-
-                mortality_rate:
-                    calculation.mortality,
-
-                created_at:
-                    new Date().toISOString()
-
-            };
-
-
-            const { error } =
-                await supabaseClient
-                    .from("farm_daily_data")
-                    .insert([databaseData]);
-
-
-            if (error) {
-
-                console.error(
-                    "Supabase error:",
-                    error
-                );
-
-                return {
-                    success: false,
-                    error
-                };
-
-            }
-
-
-            console.log(
-                "Data saved to Supabase"
-            );
-
-
-            return {
-                success: true
-            };
-
-
-        } catch (error) {
-
-            console.error(
-                "Supabase save error:",
-                error
-            );
-
-
-            return {
-                success: false,
-                error
-            };
-
-        }
-
+        transition:
+            transform 0.28s ease;
     }
 
 
-
-    /* =====================================================
-       14. SAVE FARM DATA
-       ===================================================== */
-
-    async function saveFarmData() {
-
-        const data =
-            getFormData();
-
-
-        /*
-           VALIDATION
-        */
-
-        if (data.initialChicken < 0) {
-
-            alert(
-                "Populasi ayam tidak boleh negatif."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            data.dailyDeath >
-            data.initialChicken
-        ) {
-
-            alert(
-                "Jumlah ayam mati tidak boleh lebih besar dari populasi awal."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            data.initialFeed < 0 ||
-            data.feedIncoming < 0 ||
-            data.feedUsed < 0
-        ) {
-
-            alert(
-                "Data pakan tidak boleh negatif."
-            );
-
-            return;
-
-        }
-
-
-        /*
-           Disable button saat menyimpan
-        */
-
-        if (saveButton) {
-
-            saveButton.disabled = true;
-
-            saveButton.textContent =
-                "⏳ Menyimpan...";
-
-        }
-
-
-        try {
-
-            /*
-               LOCAL STORAGE
-
-               Ini memastikan data tetap tersimpan
-               walaupun Supabase belum aktif.
-            */
-
-            saveLocalData(data);
-
-
-            /*
-               UPDATE DASHBOARD
-            */
-
-            updateDashboard(data);
-
-
-            /*
-               SUPABASE
-            */
-
-            await saveToSupabase(data);
-
-
-            /*
-               SUCCESS MESSAGE
-            */
-
-            showSuccessMessage();
-
-
-            console.log(
-                "Farm data saved:",
-                data
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Save error:",
-                error
-            );
-
-
-            alert(
-                "Terjadi kesalahan saat menyimpan data."
-            );
-
-
-        } finally {
-
-            if (saveButton) {
-
-                saveButton.disabled = false;
-
-                saveButton.textContent =
-                    "💾 Simpan Data Hari Ini";
-
-            }
-
-        }
-
+    .sidebar.open {
+        transform:
+            translateX(0);
     }
 
 
-
-    /* =====================================================
-       15. SAVE BUTTON
-       ===================================================== */
-
-    if (saveButton) {
-
-        saveButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                saveFarmData();
-
-            }
-        );
-
+    .sidebar-overlay.show {
+        display: block;
     }
 
 
-
-    /* =====================================================
-       16. SUCCESS MESSAGE
-       ===================================================== */
-
-    function showSuccessMessage() {
-
-        if (!successMessage) return;
-
-
-        successMessage.style.display =
-            "block";
-
-
-        successMessage.textContent =
-            "✓ Data peternakan berhasil disimpan";
-
-
-        setTimeout(() => {
-
-            successMessage.style.display =
-                "none";
-
-        }, 3500);
-
+    .main-area {
+        margin-left: 0;
     }
 
 
-
-    /* =====================================================
-       17. LOAD SAVED FARM DATA
-       ===================================================== */
-
-    function loadFarmData() {
-
-        const storedData =
-            localStorage.getItem(
-                "fsnFarmCurrentData"
-            );
-
-
-        if (!storedData) {
-
-            updateDashboard({
-
-                initialChicken: 0,
-                dailyDeath: 0,
-                initialFeed: 0,
-                feedIncoming: 0,
-                feedUsed: 0,
-                averageWeight: 0
-
-            });
-
-            return;
-
-        }
-
-
-        try {
-
-            const data =
-                JSON.parse(storedData);
-
-
-            /*
-               Isi kembali form.
-            */
-
-            if (initialChicken) {
-
-                initialChicken.value =
-                    data.initialChicken ?? "";
-
-            }
-
-
-            if (dailyDeath) {
-
-                dailyDeath.value =
-                    data.dailyDeath ?? "";
-
-            }
-
-
-            if (initialFeed) {
-
-                initialFeed.value =
-                    data.initialFeed ?? "";
-
-            }
-
-
-            if (feedIncoming) {
-
-                feedIncoming.value =
-                    data.feedIncoming ?? "";
-
-            }
-
-
-            if (feedUsed) {
-
-                feedUsed.value =
-                    data.feedUsed ?? "";
-
-            }
-
-
-            if (averageWeight) {
-
-                averageWeight.value =
-                    data.averageWeight ?? "";
-
-            }
-
-
-            updateDashboard(data);
-
-
-        } catch (error) {
-
-            console.error(
-                "Tidak dapat membaca data:",
-                error
-            );
-
-        }
-
+    .menu-toggle {
+        display: flex;
     }
 
 
-
-    /* =====================================================
-       18. LIVE PREVIEW WHILE INPUTTING
-       ===================================================== */
-
-    const farmInputs = [
-
-        initialChicken,
-        dailyDeath,
-        initialFeed,
-        feedIncoming,
-        feedUsed,
-        averageWeight
-
-    ];
+    .topbar {
+        padding:
+            14px 20px;
+    }
 
 
-    farmInputs.forEach((input) => {
-
-        if (!input) return;
-
-
-        input.addEventListener(
-            "input",
-            function () {
-
-                const previewData =
-                    getFormData();
+    .dashboard-content {
+        padding:
+            22px 18px 40px;
+    }
 
 
-                updateDashboard(
-                    previewData
-                );
+    .hero-card {
+        min-height: 200px;
 
-            }
-        );
+        padding:
+            30px 27px;
+    }
 
-    });
+
+    .hero-logo {
+        width: 130px;
+        height: 125px;
+    }
+
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
 
 
 
-    /* =====================================================
-       19. RESET DAILY INPUT
-       ===================================================== */
+/* =========================================================
+   20. PHONE
+   ========================================================= */
 
-    window.resetFSNFarmData = function () {
+@media (max-width: 600px) {
 
-        const confirmed =
-            confirm(
-                "Apakah Anda yakin ingin menghapus data FSN Farm yang tersimpan di perangkat ini?"
-            );
-
-
-        if (!confirmed) return;
+    .login-card {
+        padding:
+            30px 23px;
+    }
 
 
-        localStorage.removeItem(
-            "fsnFarmCurrentData"
-        );
+    .login-logo {
+        width: 105px;
+        height: 105px;
+    }
 
 
-        localStorage.removeItem(
-            "fsnFarmHistory"
-        );
+    .topbar {
+        min-height: 76px;
+
+        padding:
+            12px 15px;
+    }
 
 
-        if (initialChicken) {
-            initialChicken.value = "";
-        }
-
-        if (dailyDeath) {
-            dailyDeath.value = "";
-        }
-
-        if (initialFeed) {
-            initialFeed.value = "";
-        }
-
-        if (feedIncoming) {
-            feedIncoming.value = "";
-        }
-
-        if (feedUsed) {
-            feedUsed.value = "";
-        }
-
-        if (averageWeight) {
-            averageWeight.value = "";
-        }
+    .topbar-left h1 {
+        font-size: 20px;
+    }
 
 
-        updateDashboard({
-
-            initialChicken: 0,
-            dailyDeath: 0,
-            initialFeed: 0,
-            feedIncoming: 0,
-            feedUsed: 0,
-            averageWeight: 0
-
-        });
+    .admin-info {
+        display: none;
+    }
 
 
-        alert(
-            "Data lokal berhasil direset."
-        );
-
-    };
+    .topbar-right {
+        gap: 9px;
+    }
 
 
-
-    /* =====================================================
-       20. INITIAL LOAD
-       ===================================================== */
-
-    loadFarmData();
+    .admin-avatar {
+        width: 40px;
+        height: 40px;
+    }
 
 
-    console.log(
-        "FSN Farm Dashboard Ready"
-    );
+    .notification-btn {
+        width: 40px;
+        height: 40px;
+    }
 
-});
+
+    .dashboard-content {
+        padding:
+            16px 13px 35px;
+    }
+
+
+    .hero-card {
+        min-height: auto;
+
+        padding:
+            25px 22px;
+    }
+
+
+    .hero-content h2 {
+        font-size: 27px;
+    }
+
+
+    .hero-content p {
+        font-size: 13px;
+    }
+
+
+    .hero-logo {
+        width: 100px;
+        height: 100px;
+    }
+
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+
+        margin-top: 16px;
+    }
+
+
+    .stat-card {
+        min-height: 110px;
+
+        padding: 18px;
+    }
+
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+    }
+
+
+    .info-grid {
+        gap: 14px;
+
+        margin-top: 15px;
+    }
+
+
+    .panel {
+        padding: 19px;
+
+        border-radius: 17px;
+    }
+
+
+    .performance-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .form-actions {
+        display: block;
+    }
+
+
+    .save-button {
+        width: 100%;
+    }
+
+}
+
+
+
+/* =========================================================
+   21. VERY SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .hero-card {
+        display: block;
+    }
+
+
+    .hero-logo {
+        width: 100px;
+        height: 100px;
+
+        margin:
+            20px auto 0;
+    }
+
+
+    .hero-badge {
+        font-size: 9px;
+    }
+
+
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
