@@ -1,6 +1,6 @@
 /* =========================================================
    FSN FARM MANAGEMENT SYSTEM
-   STYLE.CSS
+   FINAL STYLE.CSS
    ========================================================= */
 
 
@@ -15,41 +15,33 @@
 }
 
 :root {
-    --green-900: #064e35;
-    --green-800: #08603f;
-    --green-700: #0b7048;
-    --green-600: #108957;
-    --green-500: #19a866;
-    --green-400: #38bd7a;
-    --green-100: #dff5e9;
-    --green-50: #f0faf5;
+    --green: #138a55;
+    --green-dark: #08653d;
+    --green-deep: #064d30;
+    --green-light: #e9f7ef;
+    --green-soft: #f2faf6;
 
-    --orange: #f5a623;
-    --orange-light: #fff3d8;
-
-    --red: #ef5350;
-    --red-light: #ffebeb;
-
-    --blue: #4285f4;
-    --blue-light: #e8f0ff;
-
-    --text: #17251f;
-    --text-soft: #6f8078;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
 
     --background: #f3f7f5;
-    --white: #ffffff;
+    --surface: #ffffff;
 
-    --border: #e2ebe6;
+    --text: #17251e;
+    --text-soft: #718078;
+    --border: #e4ece7;
 
     --sidebar-width: 270px;
 
+    --radius: 22px;
+    --radius-small: 14px;
+
     --shadow:
-        0 8px 30px rgba(8, 70, 45, 0.07);
+        0 8px 30px rgba(22, 70, 45, 0.08);
 
     --shadow-hover:
-        0 14px 35px rgba(8, 70, 45, 0.12);
-
-    --radius: 20px;
+        0 14px 35px rgba(22, 70, 45, 0.13);
 }
 
 
@@ -64,15 +56,13 @@ body {
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
+        Roboto,
         Arial,
         sans-serif;
 
     background: var(--background);
     color: var(--text);
-
     min-height: 100vh;
-
-    -webkit-font-smoothing: antialiased;
 }
 
 
@@ -84,12 +74,12 @@ input {
 
 button {
     border: none;
-    cursor: pointer;
 }
 
 
-.hidden {
-    display: none !important;
+img {
+    max-width: 100%;
+    display: block;
 }
 
 
@@ -99,7 +89,6 @@ button {
    ========================================================= */
 
 .login-page {
-    width: 100%;
     min-height: 100vh;
 
     display: flex;
@@ -111,42 +100,52 @@ button {
     background:
         radial-gradient(
             circle at 15% 20%,
-            rgba(60, 200, 120, 0.22),
-            transparent 30%
+            rgba(62, 190, 119, 0.28),
+            transparent 32%
         ),
         radial-gradient(
             circle at 90% 80%,
-            rgba(255, 190, 70, 0.13),
+            rgba(245, 158, 11, 0.12),
             transparent 30%
         ),
         linear-gradient(
             135deg,
-            #064d34,
-            #087047 50%,
-            #0c8a56
+            #064b2e,
+            #087447 50%,
+            #0b8d55
         );
-}
-
-
-.login-container {
-    width: 100%;
-    max-width: 440px;
 }
 
 
 .login-card {
     width: 100%;
+    max-width: 440px;
+
+    padding: 38px;
 
     background: rgba(255, 255, 255, 0.98);
 
     border-radius: 28px;
 
-    padding: 38px 38px 30px;
-
     box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.25);
+        0 30px 80px rgba(0, 0, 0, 0.22);
 
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    animation: loginAppear 0.5s ease;
+}
+
+
+@keyframes loginAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 }
 
 
@@ -162,18 +161,17 @@ button {
 
     object-fit: contain;
 
-    display: block;
-    margin: 0 auto 12px;
+    margin: 0 auto 14px;
 
     filter:
         drop-shadow(
-            0 8px 10px rgba(0, 0, 0, 0.15)
+            0 10px 12px rgba(0, 0, 0, 0.12)
         );
 }
 
 
 .login-brand h1 {
-    color: var(--green-800);
+    color: var(--green-dark);
 
     font-size: 31px;
     font-weight: 800;
@@ -186,12 +184,13 @@ button {
 
 .login-brand p {
     color: var(--text-soft);
+
     font-size: 14px;
 }
 
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 19px;
 }
 
 
@@ -200,10 +199,10 @@ button {
 
     margin-bottom: 8px;
 
-    font-size: 14px;
-    font-weight: 600;
+    color: #34473d;
 
-    color: #344b40;
+    font-size: 14px;
+    font-weight: 650;
 }
 
 
@@ -211,13 +210,12 @@ button {
     width: 100%;
     height: 52px;
 
-    border: 1px solid #dbe6e0;
+    padding: 0 16px;
 
-    background: #f9fbfa;
-
+    border: 1px solid var(--border);
     border-radius: 13px;
 
-    padding: 0 16px;
+    background: #f9fbfa;
 
     color: var(--text);
 
@@ -228,46 +226,46 @@ button {
 
 
 .input-group input::placeholder {
-    color: #a1ada7;
+    color: #a5afa9;
 }
 
 
 .input-group input:focus {
     background: white;
 
-    border-color: var(--green-500);
+    border-color: var(--green);
 
     box-shadow:
-        0 0 0 4px rgba(25, 168, 102, 0.12);
+        0 0 0 4px rgba(19, 138, 85, 0.1);
 }
 
 
 .login-btn {
     width: 100%;
-    height: 54px;
+    height: 53px;
 
-    margin-top: 4px;
+    margin-top: 5px;
 
     border-radius: 14px;
 
     background:
         linear-gradient(
             135deg,
-            var(--green-700),
-            var(--green-500)
+            var(--green-dark),
+            #15965d
         );
 
     color: white;
 
-    font-weight: 700;
+    font-weight: 750;
     font-size: 15px;
 
-    box-shadow:
-        0 10px 24px rgba(15, 137, 87, 0.22);
+    cursor: pointer;
 
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    box-shadow:
+        0 10px 22px rgba(8, 101, 61, 0.23);
+
+    transition: 0.2s ease;
 }
 
 
@@ -275,29 +273,26 @@ button {
     transform: translateY(-2px);
 
     box-shadow:
-        0 14px 28px rgba(15, 137, 87, 0.3);
+        0 14px 28px rgba(8, 101, 61, 0.3);
 }
 
 
 .login-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.99);
 }
 
 
 .login-error {
     display: none;
 
-    margin-top: 15px;
+    margin-top: 14px;
+    padding: 11px 14px;
+
+    border-radius: 11px;
 
     background: #fff0f0;
 
-    border: 1px solid #ffd1d1;
-
-    color: #c0392b;
-
-    padding: 11px 14px;
-
-    border-radius: 10px;
+    color: #c33c3c;
 
     font-size: 13px;
 
@@ -306,41 +301,38 @@ button {
 
 
 .login-footer {
-    text-align: center;
-
-    margin-top: 25px;
-
-    padding-top: 20px;
+    margin-top: 28px;
+    padding-top: 21px;
 
     border-top: 1px solid var(--border);
+
+    text-align: center;
 
     color: var(--text-soft);
 
     font-size: 12px;
+
+    line-height: 1.7;
 }
 
 
-.login-footer span {
-    color: var(--green-500);
+.login-footer strong {
+    color: var(--green-dark);
 }
 
 
 
 /* =========================================================
-   3. MAIN APPLICATION
+   3. APPLICATION
    ========================================================= */
 
 .farm-app {
-    min-height: 100vh;
+    display: none;
 }
 
 
-.main-area {
-    min-height: 100vh;
-
-    margin-left: var(--sidebar-width);
-
-    transition: margin-left 0.3s ease;
+.app-visible {
+    display: block;
 }
 
 
@@ -350,72 +342,77 @@ button {
    ========================================================= */
 
 .sidebar {
-    width: var(--sidebar-width);
-    height: 100vh;
-
     position: fixed;
 
-    top: 0;
     left: 0;
+    top: 0;
+    bottom: 0;
 
-    z-index: 1000;
-
-    display: flex;
-    flex-direction: column;
+    width: var(--sidebar-width);
 
     padding: 25px 18px;
-
-    overflow-y: auto;
-
-    color: white;
 
     background:
         linear-gradient(
             180deg,
-            #0b754b 0%,
-            #08623f 55%,
-            #064e35 100%
+            #087347 0%,
+            #075f3b 55%,
+            #064c31 100%
         );
 
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 1000;
+
+    overflow-y: auto;
+
     box-shadow:
-        8px 0 30px rgba(0, 50, 30, 0.08);
+        5px 0 25px rgba(0, 0, 0, 0.08);
 }
 
 
 .sidebar-brand {
-    min-height: 80px;
+    min-height: 85px;
 
     display: flex;
     align-items: center;
 
-    gap: 12px;
+    gap: 13px;
 
-    padding: 5px 8px 24px;
+    padding: 5px 8px 22px;
+
+    margin-bottom: 10px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.09);
 }
 
 
 .sidebar-logo {
-    width: 64px;
-    height: 64px;
-
-    flex-shrink: 0;
+    width: 62px;
+    height: 62px;
 
     object-fit: contain;
 
+    flex-shrink: 0;
+
     filter:
         drop-shadow(
-            0 5px 6px rgba(0, 0, 0, 0.18)
+            0 5px 6px rgba(0, 0, 0, 0.2)
         );
 }
 
 
 .sidebar-brand h2 {
-    color: white;
-
-    font-size: 21px;
+    font-size: 19px;
     font-weight: 800;
 
-    line-height: 1.2;
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
 }
 
 
@@ -437,7 +434,7 @@ button {
     display: flex;
     flex-direction: column;
 
-    gap: 6px;
+    gap: 7px;
 
     flex: 1;
 }
@@ -446,12 +443,14 @@ button {
 .menu-item {
     width: 100%;
 
+    min-height: 51px;
+
     display: flex;
     align-items: center;
 
     gap: 14px;
 
-    padding: 14px 15px;
+    padding: 11px 15px;
 
     border-radius: 14px;
 
@@ -459,29 +458,22 @@ button {
 
     color: rgba(255, 255, 255, 0.76);
 
-    text-align: left;
-
     font-size: 14px;
     font-weight: 500;
+
+    text-align: left;
+
+    cursor: pointer;
 
     transition: 0.2s ease;
 }
 
 
-.menu-icon {
-    width: 27px;
-
-    text-align: center;
-
-    font-size: 20px;
-}
-
-
 .menu-item:hover {
-    color: white;
-
     background:
         rgba(255, 255, 255, 0.09);
+
+    color: white;
 
     transform: translateX(2px);
 }
@@ -490,26 +482,42 @@ button {
 .menu-item.active {
     background: white;
 
-    color: var(--green-800);
+    color: var(--green-dark);
 
-    font-weight: 700;
+    font-weight: 750;
 
     box-shadow:
-        0 7px 20px rgba(0, 0, 0, 0.12);
+        0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+
+.menu-icon {
+    width: 24px;
+
+    text-align: center;
+
+    font-size: 19px;
+
+    flex-shrink: 0;
+}
+
+
+
+/* =========================================================
+   6. SIDEBAR STATUS
+   ========================================================= */
 
 .sidebar-status {
     display: flex;
     align-items: center;
 
-    gap: 10px;
+    gap: 11px;
 
-    margin-top: 20px;
+    margin-top: 22px;
 
     padding: 14px;
 
-    border-radius: 15px;
+    border-radius: 14px;
 
     background:
         rgba(255, 255, 255, 0.08);
@@ -517,17 +525,17 @@ button {
 
 
 .status-light {
-    width: 9px;
-    height: 9px;
-
-    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
 
     border-radius: 50%;
 
-    background: #58e795;
+    background: #5cf09d;
 
     box-shadow:
-        0 0 0 5px rgba(88, 231, 149, 0.13);
+        0 0 0 5px rgba(92, 240, 157, 0.12);
+
+    flex-shrink: 0;
 }
 
 
@@ -543,38 +551,80 @@ button {
 
     margin-top: 3px;
 
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(255, 255, 255, 0.65);
 
     font-size: 10px;
 }
 
 
+.logout-button {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    color:
+        rgba(255, 255, 255, 0.8);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.logout-button:hover {
+    background:
+        rgba(255, 255, 255, 0.15);
+
+    color: white;
+}
+
+
 
 /* =========================================================
-   6. TOPBAR
+   7. MAIN AREA
+   ========================================================= */
+
+.main-area {
+    min-height: 100vh;
+
+    margin-left: var(--sidebar-width);
+}
+
+
+
+/* =========================================================
+   8. TOPBAR
    ========================================================= */
 
 .topbar {
-    height: 90px;
-
     position: sticky;
 
     top: 0;
 
-    z-index: 100;
+    min-height: 88px;
+
+    padding: 16px 32px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 32px;
-
     background:
-        rgba(255, 255, 255, 0.96);
+        rgba(255, 255, 255, 0.95);
 
-    border-bottom: 1px solid var(--border);
+    border-bottom:
+        1px solid var(--border);
 
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(15px);
+
+    z-index: 500;
 }
 
 
@@ -587,35 +637,41 @@ button {
 
 
 .topbar-left h1 {
-    font-size: 24px;
-    font-weight: 800;
+    font-size: 25px;
 
-    color: var(--text);
+    line-height: 1.2;
+
+    font-weight: 800;
 }
 
 
 .topbar-left p {
-    margin-top: 3px;
-
-    font-size: 12px;
+    margin-top: 5px;
 
     color: var(--text-soft);
+
+    font-size: 12px;
 }
 
 
 .menu-toggle {
     display: none;
 
-    width: 42px;
-    height: 42px;
+    width: 43px;
+    height: 43px;
 
-    border-radius: 11px;
+    align-items: center;
+    justify-content: center;
 
-    background: var(--green-50);
+    border-radius: 12px;
 
-    color: var(--green-800);
+    background: var(--green-light);
 
-    font-size: 20px;
+    color: var(--green-dark);
+
+    font-size: 21px;
+
+    cursor: pointer;
 }
 
 
@@ -623,32 +679,34 @@ button {
     display: flex;
     align-items: center;
 
-    gap: 20px;
+    gap: 18px;
 }
 
 
 .notification-btn {
+    position: relative;
+
     width: 45px;
     height: 45px;
 
-    position: relative;
-
     border-radius: 13px;
 
-    background: #f3f7f5;
+    background: #f5f8f6;
 
-    font-size: 19px;
+    cursor: pointer;
+
+    font-size: 18px;
 }
 
 
 .notification-count {
-    width: 18px;
-    height: 18px;
-
     position: absolute;
 
+    right: -3px;
     top: -4px;
-    right: -4px;
+
+    min-width: 18px;
+    height: 18px;
 
     display: flex;
     align-items: center;
@@ -662,8 +720,6 @@ button {
 
     font-size: 10px;
     font-weight: 700;
-
-    border: 2px solid white;
 }
 
 
@@ -688,13 +744,13 @@ button {
     background:
         linear-gradient(
             135deg,
-            var(--green-500),
-            #54cc89
+            #28a96a,
+            #62d293
         );
 
     color: white;
 
-    font-weight: 700;
+    font-weight: 750;
 }
 
 
@@ -718,51 +774,54 @@ button {
 
 
 /* =========================================================
-   7. DASHBOARD CONTENT
+   9. DASHBOARD CONTENT
    ========================================================= */
 
 .dashboard-content {
     width: 100%;
-    max-width: 1600px;
+
+    max-width: 1550px;
 
     margin: 0 auto;
 
-    padding: 30px 32px 45px;
+    padding: 30px 32px 50px;
 }
 
 
 
 /* =========================================================
-   8. HERO
+   10. HERO
    ========================================================= */
 
 .hero-card {
-    min-height: 220px;
-
     position: relative;
 
-    overflow: hidden;
+    min-height: 220px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 35px 42px;
+    gap: 30px;
 
-    border-radius: 25px;
+    padding: 36px 42px;
 
-    color: white;
+    overflow: hidden;
+
+    border-radius: 26px;
 
     background:
         linear-gradient(
             120deg,
-            #087347,
-            #1c9b60 60%,
-            #48bd7c
+            #087548 0%,
+            #15975b 55%,
+            #55bf7f 100%
         );
 
+    color: white;
+
     box-shadow:
-        0 15px 35px rgba(9, 113, 72, 0.15);
+        0 15px 35px rgba(8, 101, 61, 0.16);
 }
 
 
@@ -771,16 +830,16 @@ button {
 
     position: absolute;
 
-    width: 280px;
-    height: 280px;
+    width: 300px;
+    height: 300px;
 
-    right: -70px;
-    top: -130px;
+    right: -100px;
+    top: -150px;
 
     border-radius: 50%;
 
     background:
-        rgba(255, 255, 255, 0.07);
+        rgba(255, 255, 255, 0.08);
 }
 
 
@@ -789,25 +848,25 @@ button {
 
     position: absolute;
 
-    width: 230px;
-    height: 230px;
+    width: 220px;
+    height: 220px;
 
-    right: 140px;
-    bottom: -180px;
+    right: 170px;
+    bottom: -170px;
 
     border-radius: 50%;
 
     background:
-        rgba(255, 255, 255, 0.05);
+        rgba(255, 255, 255, 0.06);
 }
 
 
 .hero-content {
     position: relative;
 
-    z-index: 2;
-
     max-width: 720px;
+
+    z-index: 2;
 }
 
 
@@ -818,20 +877,20 @@ button {
 
     margin-bottom: 16px;
 
-    border-radius: 50px;
+    border-radius: 30px;
 
     background:
         rgba(255, 255, 255, 0.13);
 
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 650;
 
     letter-spacing: 0.8px;
 }
 
 
 .hero-content h2 {
-    font-size: clamp(27px, 3vw, 40px);
+    font-size: clamp(28px, 3vw, 40px);
 
     line-height: 1.15;
 
@@ -842,40 +901,38 @@ button {
 
 
 .hero-content h2 span {
-    color: #ffdf80;
+    color: #ffe48b;
 }
 
 
 .hero-content p {
-    max-width: 680px;
+    max-width: 670px;
+
+    color:
+        rgba(255, 255, 255, 0.88);
 
     font-size: 15px;
 
     line-height: 1.7;
-
-    color: rgba(255, 255, 255, 0.86);
 }
 
 
-/*
-   IMPORTANT:
-   Logo baru hanya menjadi elemen dekoratif
-   dengan ukuran terbatas.
-*/
+
+/* LOGO HERO BARU */
 
 .hero-logo {
-    width: 185px;
-    height: 165px;
-
     position: relative;
 
-    z-index: 2;
+    width: 175px;
+    height: 160px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     flex-shrink: 0;
+
+    z-index: 2;
 }
 
 
@@ -887,14 +944,31 @@ button {
 
     filter:
         drop-shadow(
-            0 12px 14px rgba(0, 0, 0, 0.20)
+            0 13px 15px rgba(0, 0, 0, 0.18)
         );
+
+    animation:
+        logoFloat 4s ease-in-out infinite;
+}
+
+
+@keyframes logoFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+
 }
 
 
 
 /* =========================================================
-   9. STAT CARDS
+   11. STAT CARDS
    ========================================================= */
 
 .stats-grid {
@@ -905,31 +979,30 @@ button {
 
     gap: 18px;
 
-    margin-top: 22px;
+    margin-top: 24px;
 }
 
 
 .stat-card {
-    min-height: 145px;
+    position: relative;
+
+    min-height: 135px;
 
     display: flex;
     align-items: center;
 
-    gap: 17px;
+    gap: 16px;
 
-    padding: 23px;
-
-    position: relative;
-
-    overflow: hidden;
-
-    border-radius: var(--radius);
+    padding: 22px;
 
     background: white;
 
     border: 1px solid var(--border);
+    border-radius: 20px;
 
     box-shadow: var(--shadow);
+
+    overflow: hidden;
 
     transition:
         transform 0.2s ease,
@@ -949,16 +1022,16 @@ button {
 
     position: absolute;
 
-    top: 0;
     left: 0;
+    top: 0;
+    bottom: 0;
 
-    width: 100%;
-    height: 4px;
+    width: 4px;
 }
 
 
 .stat-green::before {
-    background: var(--green-500);
+    background: #2dbd73;
 }
 
 
@@ -981,32 +1054,17 @@ button {
     width: 58px;
     height: 58px;
 
-    flex-shrink: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 16px;
+    border-radius: 17px;
 
-    background: var(--green-50);
+    background: var(--green-light);
 
     font-size: 27px;
-}
 
-
-.stat-orange .stat-icon {
-    background: var(--orange-light);
-}
-
-
-.stat-red .stat-icon {
-    background: var(--red-light);
-}
-
-
-.stat-blue .stat-icon {
-    background: var(--blue-light);
+    flex-shrink: 0;
 }
 
 
@@ -1018,7 +1076,7 @@ button {
 .stat-title {
     display: block;
 
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 
     color: var(--text-soft);
 
@@ -1029,27 +1087,27 @@ button {
 .stat-data strong {
     display: block;
 
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+
+    color: var(--text);
 
     font-size: 25px;
     font-weight: 800;
 
-    color: var(--text);
+    line-height: 1.1;
 }
 
 
 .stat-data small {
-    display: block;
-
     color: var(--text-soft);
 
-    font-size: 11px;
+    font-size: 10px;
 }
 
 
 
 /* =========================================================
-   10. GENERAL PANELS
+   12. PANELS
    ========================================================= */
 
 .info-grid {
@@ -1065,13 +1123,12 @@ button {
 
 
 .panel {
+    padding: 25px;
+
     background: white;
 
     border: 1px solid var(--border);
-
     border-radius: var(--radius);
-
-    padding: 25px;
 
     box-shadow: var(--shadow);
 }
@@ -1084,21 +1141,19 @@ button {
 
     gap: 15px;
 
-    margin-bottom: 25px;
+    margin-bottom: 24px;
 }
 
 
 .panel-header h3 {
+    margin-bottom: 5px;
+
     font-size: 17px;
     font-weight: 750;
-
-    color: var(--text);
 }
 
 
 .panel-header p {
-    margin-top: 5px;
-
     color: var(--text-soft);
 
     font-size: 11px;
@@ -1108,11 +1163,11 @@ button {
 .status-badge {
     padding: 7px 12px;
 
-    border-radius: 50px;
+    border-radius: 20px;
 
-    background: var(--green-100);
+    background: var(--green-light);
 
-    color: var(--green-700);
+    color: var(--green-dark);
 
     font-size: 11px;
     font-weight: 700;
@@ -1121,7 +1176,7 @@ button {
 
 
 /* =========================================================
-   11. FEED PANEL
+   13. FEED PANEL
    ========================================================= */
 
 .feed-total {
@@ -1130,15 +1185,15 @@ button {
 
     gap: 7px;
 
-    margin-bottom: 18px;
+    margin-bottom: 17px;
 }
 
 
 .feed-total strong {
-    font-size: 34px;
-    font-weight: 800;
+    color: var(--green-dark);
 
-    color: var(--green-800);
+    font-size: 37px;
+    font-weight: 800;
 }
 
 
@@ -1155,9 +1210,9 @@ button {
 
     overflow: hidden;
 
-    border-radius: 50px;
+    border-radius: 20px;
 
-    background: #eaf0ed;
+    background: #edf2ef;
 }
 
 
@@ -1170,8 +1225,8 @@ button {
     background:
         linear-gradient(
             90deg,
-            var(--orange),
-            #ffc44f
+            #f4aa25,
+            #ffc75a
         );
 
     transition: width 0.5s ease;
@@ -1182,7 +1237,7 @@ button {
     display: flex;
     justify-content: space-between;
 
-    margin-top: 9px;
+    margin-top: 8px;
 
     color: var(--text-soft);
 
@@ -1192,7 +1247,7 @@ button {
 
 
 /* =========================================================
-   12. PERFORMANCE
+   14. PERFORMANCE
    ========================================================= */
 
 .performance-grid {
@@ -1206,7 +1261,9 @@ button {
 
 
 .performance-box {
-    padding: 17px;
+    min-height: 82px;
+
+    padding: 15px;
 
     border-radius: 15px;
 
@@ -1226,7 +1283,7 @@ button {
 
 
 .performance-box strong {
-    color: var(--green-800);
+    color: var(--green-dark);
 
     font-size: 18px;
 }
@@ -1234,7 +1291,7 @@ button {
 
 
 /* =========================================================
-   13. INPUT PANEL
+   15. INPUT PANEL
    ========================================================= */
 
 .input-panel {
@@ -1248,26 +1305,29 @@ button {
 
     gap: 7px;
 
-    padding: 8px 12px;
+    padding: 7px 11px;
 
-    border-radius: 50px;
+    border-radius: 20px;
 
-    background: var(--green-50);
+    background: var(--green-light);
 
-    color: var(--green-700);
+    color: var(--green-dark);
 
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 
-.active-system > span {
+.active-system span {
     width: 7px;
     height: 7px;
 
     border-radius: 50%;
 
-    background: var(--green-500);
+    background: #25b96b;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 185, 107, 0.12);
 }
 
 
@@ -1282,14 +1342,11 @@ button {
 
 
 .form-field label {
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
+    display: block;
 
     margin-bottom: 8px;
 
-    color: #34483e;
+    color: #34463d;
 
     font-size: 12px;
     font-weight: 650;
@@ -1298,15 +1355,16 @@ button {
 
 .form-field input {
     width: 100%;
-    height: 48px;
+    height: 49px;
 
-    padding: 0 14px;
+    padding: 0 15px;
 
-    border: 1px solid #dbe6e0;
+    border:
+        1px solid var(--border);
 
     border-radius: 12px;
 
-    background: #fafcfb;
+    background: #f9fbfa;
 
     color: var(--text);
 
@@ -1316,58 +1374,47 @@ button {
 }
 
 
-.form-field input:hover {
-    border-color: #bcd3c7;
-}
-
-
 .form-field input:focus {
     background: white;
 
-    border-color: var(--green-500);
+    border-color: var(--green);
 
     box-shadow:
-        0 0 0 4px rgba(25, 168, 102, 0.10);
+        0 0 0 4px rgba(19, 138, 85, 0.09);
 }
 
 
 .form-actions {
     display: flex;
+
     justify-content: flex-end;
 
-    margin-top: 23px;
+    margin-top: 22px;
 }
 
 
 .save-button {
     min-width: 220px;
 
-    height: 50px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    padding: 0 22px;
+    padding: 14px 20px;
 
     border-radius: 13px;
-
-    color: white;
 
     background:
         linear-gradient(
             135deg,
-            var(--green-700),
-            var(--green-500)
+            var(--green-dark),
+            #15975d
         );
 
-    font-size: 13px;
+    color: white;
+
     font-weight: 700;
 
+    cursor: pointer;
+
     box-shadow:
-        0 9px 22px rgba(15, 137, 87, 0.18);
+        0 9px 20px rgba(8, 101, 61, 0.2);
 
     transition: 0.2s ease;
 }
@@ -1377,45 +1424,46 @@ button {
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 26px rgba(15, 137, 87, 0.25);
+        0 12px 25px rgba(8, 101, 61, 0.28);
 }
 
 
-.success-message,
+.success-message {
+    display: none;
+
+    margin-top: 17px;
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    background: #eaf8f0;
+
+    color: var(--green-dark);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
 .error-message {
     display: none;
 
-    margin-top: 18px;
+    margin-top: 14px;
+    padding: 13px;
 
-    padding: 12px 15px;
+    border-radius: 12px;
 
-    border-radius: 11px;
+    background: #fff0f0;
+
+    color: #c53d3d;
 
     font-size: 12px;
 }
 
 
-.success-message {
-    background: #e9f9f0;
-
-    color: var(--green-700);
-
-    border: 1px solid #ccefdc;
-}
-
-
-.error-message {
-    background: #fff0f0;
-
-    color: #c0392b;
-
-    border: 1px solid #ffd4d4;
-}
-
-
 
 /* =========================================================
-   14. DATA TABLE
+   16. HISTORY TABLE
    ========================================================= */
 
 .recent-panel {
@@ -1427,59 +1475,56 @@ button {
     width: 100%;
 
     overflow-x: auto;
-
-    border: 1px solid var(--border);
-
-    border-radius: 14px;
 }
 
 
 .farm-table {
     width: 100%;
 
-    min-width: 700px;
-
     border-collapse: collapse;
-}
 
-
-.farm-table thead {
-    background: var(--green-50);
+    min-width: 720px;
 }
 
 
 .farm-table th {
-    padding: 14px 15px;
+    padding: 13px 14px;
 
-    text-align: left;
+    background: #f5f8f6;
 
-    color: var(--green-800);
+    color: var(--text-soft);
 
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 650;
+
+    text-align: left;
+}
+
+
+.farm-table th:first-child {
+    border-radius: 11px 0 0 11px;
+}
+
+
+.farm-table th:last-child {
+    border-radius: 0 11px 11px 0;
 }
 
 
 .farm-table td {
-    padding: 14px 15px;
+    padding: 15px 14px;
 
-    border-top: 1px solid var(--border);
-
-    color: #46574f;
+    border-bottom:
+        1px solid #edf1ef;
 
     font-size: 12px;
 }
 
 
-.farm-table tbody tr:hover {
-    background: #fafcfb;
-}
-
-
 .empty-row td {
-    text-align: center;
+    padding: 35px;
 
-    padding: 30px;
+    text-align: center;
 
     color: var(--text-soft);
 }
@@ -1487,7 +1532,7 @@ button {
 
 
 /* =========================================================
-   15. SIDEBAR OVERLAY
+   17. SIDEBAR OVERLAY
    ========================================================= */
 
 .sidebar-overlay {
@@ -1497,17 +1542,16 @@ button {
 
     inset: 0;
 
+    background:
+        rgba(0, 0, 0, 0.4);
+
     z-index: 900;
-
-    background: rgba(0, 0, 0, 0.42);
-
-    backdrop-filter: blur(2px);
 }
 
 
 
 /* =========================================================
-   16. TABLET / IPAD
+   18. TABLET
    ========================================================= */
 
 @media (max-width: 1100px) {
@@ -1523,20 +1567,20 @@ button {
     }
 
 
-    .sidebar-logo {
-        width: 55px;
-        height: 55px;
+    .sidebar-brand h2 {
+        font-size: 16px;
     }
 
 
-    .sidebar-brand h2 {
-        font-size: 18px;
+    .sidebar-logo {
+        width: 52px;
+        height: 52px;
     }
 
 
     .dashboard-content {
         padding:
-            25px 25px 40px;
+            25px 24px 45px;
     }
 
 
@@ -1556,20 +1600,25 @@ button {
 
 
 /* =========================================================
-   17. MOBILE / SMALL TABLET
+   19. MOBILE / IPAD PORTRAIT
    ========================================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
 
     .sidebar {
-        transform: translateX(-100%);
+        width: 270px;
 
-        transition: transform 0.3s ease;
+        transform:
+            translateX(-105%);
+
+        transition:
+            transform 0.28s ease;
     }
 
 
     .sidebar.open {
-        transform: translateX(0);
+        transform:
+            translateX(0);
     }
 
 
@@ -1585,15 +1634,66 @@ button {
 
     .menu-toggle {
         display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
 
     .topbar {
-        height: 78px;
+        padding:
+            14px 20px;
+    }
 
-        padding: 0 18px;
+
+    .dashboard-content {
+        padding:
+            22px 18px 40px;
+    }
+
+
+    .hero-card {
+        min-height: 200px;
+
+        padding:
+            30px 27px;
+    }
+
+
+    .hero-logo {
+        width: 130px;
+        height: 125px;
+    }
+
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+
+/* =========================================================
+   20. PHONE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .login-card {
+        padding:
+            30px 23px;
+    }
+
+
+    .login-logo {
+        width: 105px;
+        height: 105px;
+    }
+
+
+    .topbar {
+        min-height: 76px;
+
+        padding:
+            12px 15px;
     }
 
 
@@ -1608,98 +1708,7 @@ button {
 
 
     .topbar-right {
-        gap: 10px;
-    }
-
-
-    .dashboard-content {
-        padding:
-            20px 17px 35px;
-    }
-
-
-    .hero-card {
-        min-height: 200px;
-
-        padding: 28px;
-
-        border-radius: 20px;
-    }
-
-
-    .hero-content {
-        max-width: 75%;
-    }
-
-
-    .hero-content h2 {
-        font-size: 27px;
-    }
-
-
-    .hero-logo {
-        width: 120px;
-        height: 120px;
-    }
-
-
-    .stats-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-
-/* =========================================================
-   18. MOBILE
-   ========================================================= */
-
-@media (max-width: 520px) {
-
-    .login-page {
-        padding: 20px 15px;
-    }
-
-
-    .login-card {
-        padding:
-            30px 22px 25px;
-
-        border-radius: 22px;
-    }
-
-
-    .login-logo {
-        width: 105px;
-        height: 105px;
-    }
-
-
-    .login-brand h1 {
-        font-size: 26px;
-    }
-
-
-    .topbar {
-        padding: 0 13px;
-    }
-
-
-    .notification-btn {
-        width: 40px;
-        height: 40px;
+        gap: 9px;
     }
 
 
@@ -1709,48 +1718,39 @@ button {
     }
 
 
+    .notification-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+
     .dashboard-content {
         padding:
-            15px 12px 30px;
+            16px 13px 35px;
     }
 
 
     .hero-card {
-        min-height: 230px;
+        min-height: auto;
 
-        align-items: flex-start;
-
-        padding: 24px;
-    }
-
-
-    .hero-content {
-        max-width: 100%;
-
-        padding-right: 0;
+        padding:
+            25px 22px;
     }
 
 
     .hero-content h2 {
-        font-size: 25px;
+        font-size: 27px;
     }
 
 
     .hero-content p {
-        padding-right: 65px;
-
         font-size: 13px;
     }
 
 
     .hero-logo {
-        width: 90px;
-        height: 90px;
-
-        position: absolute;
-
-        right: 13px;
-        bottom: 13px;
+        width: 100px;
+        height: 100px;
     }
 
 
@@ -1758,13 +1758,28 @@ button {
         grid-template-columns: 1fr;
 
         gap: 12px;
+
+        margin-top: 16px;
     }
 
 
     .stat-card {
-        min-height: 115px;
+        min-height: 110px;
 
         padding: 18px;
+    }
+
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+    }
+
+
+    .info-grid {
+        gap: 14px;
+
+        margin-top: 15px;
     }
 
 
@@ -1780,13 +1795,13 @@ button {
     }
 
 
-    .panel-header {
-        margin-bottom: 20px;
+    .form-grid {
+        grid-template-columns: 1fr;
     }
 
 
-    .active-system {
-        display: none;
+    .form-actions {
+        display: block;
     }
 
 
@@ -1799,23 +1814,32 @@ button {
 
 
 /* =========================================================
-   19. VERY SMALL MOBILE
+   21. VERY SMALL SCREEN
    ========================================================= */
 
-@media (max-width: 370px) {
+@media (max-width: 420px) {
 
-    .performance-grid {
-        grid-template-columns: 1fr;
-    }
-
-
-    .hero-content p {
-        padding-right: 0;
+    .hero-card {
+        display: block;
     }
 
 
     .hero-logo {
-        opacity: 0.35;
+        width: 100px;
+        height: 100px;
+
+        margin:
+            20px auto 0;
+    }
+
+
+    .hero-badge {
+        font-size: 9px;
+    }
+
+
+    .performance-grid {
+        grid-template-columns: 1fr;
     }
 
 }
