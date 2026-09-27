@@ -1,1845 +1,1212 @@
 /* =========================================================
    FSN FARM MANAGEMENT SYSTEM
-   FINAL STYLE.CSS
+   FINAL SCRIPT.JS
    ========================================================= */
 
+document.addEventListener("DOMContentLoaded", function () {
 
-/* =========================================================
-   1. RESET & ROOT
-   ========================================================= */
+    /* =====================================================
+       ELEMENT
+       ===================================================== */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    const loginPage = document.getElementById("loginPage");
+    const farmApp = document.getElementById("farmApp");
 
-:root {
-    --green: #138a55;
-    --green-dark: #08653d;
-    --green-deep: #064d30;
-    --green-light: #e9f7ef;
-    --green-soft: #f2faf6;
+    const loginForm = document.getElementById("loginForm");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginError = document.getElementById("loginError");
 
-    --orange: #f59e0b;
-    --red: #ef4444;
-    --blue: #3b82f6;
+    const logoutButton = document.getElementById("logoutButton");
 
-    --background: #f3f7f5;
-    --surface: #ffffff;
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-    --text: #17251e;
-    --text-soft: #718078;
-    --border: #e4ece7;
+    const currentDate = document.getElementById("currentDate");
 
-    --sidebar-width: 270px;
-
-    --radius: 22px;
-    --radius-small: 14px;
-
-    --shadow:
-        0 8px 30px rgba(22, 70, 45, 0.08);
-
-    --shadow-hover:
-        0 14px 35px rgba(22, 70, 45, 0.13);
-}
-
-
-html {
-    scroll-behavior: smooth;
-}
-
-
-body {
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
-    background: var(--background);
-    color: var(--text);
-    min-height: 100vh;
-}
-
-
-button,
-input {
-    font: inherit;
-}
-
-
-button {
-    border: none;
-}
-
-
-img {
-    max-width: 100%;
-    display: block;
-}
+    const saveButton = document.getElementById("saveDailyData");
+    const successMessage = document.getElementById("successMessage");
 
 
 
-/* =========================================================
-   2. LOGIN PAGE
-   ========================================================= */
+    /* =====================================================
+       LOGIN CONFIGURATION
+       GANTI EMAIL DAN PASSWORD DI SINI
+       ===================================================== */
 
-.login-page {
-    min-height: 100vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 30px 20px;
-
-    background:
-        radial-gradient(
-            circle at 15% 20%,
-            rgba(62, 190, 119, 0.28),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 90% 80%,
-            rgba(245, 158, 11, 0.12),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #064b2e,
-            #087447 50%,
-            #0b8d55
-        );
-}
+    const ADMIN_EMAIL = "admin@fsnfarm.com";
+    const ADMIN_PASSWORD = "123456";
 
 
-.login-card {
-    width: 100%;
-    max-width: 440px;
 
-    padding: 38px;
+    /* =====================================================
+       SHOW LOGIN
+       ===================================================== */
 
-    background: rgba(255, 255, 255, 0.98);
+    function showLogin() {
 
-    border-radius: 28px;
+        if (loginPage) {
+            loginPage.style.display = "flex";
+        }
 
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.22);
+        if (farmApp) {
+            farmApp.style.display = "none";
+        }
 
-    animation: loginAppear 0.5s ease;
-}
-
-
-@keyframes loginAppear {
-
-    from {
-        opacity: 0;
-        transform: translateY(18px);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+
+    /* =====================================================
+       SHOW DASHBOARD
+       ===================================================== */
+
+    function showDashboard() {
+
+        if (loginPage) {
+            loginPage.style.display = "none";
+        }
+
+        if (farmApp) {
+            farmApp.style.display = "block";
+        }
+
+        loadFarmData();
     }
 
-}
 
 
-.login-brand {
-    text-align: center;
-    margin-bottom: 32px;
-}
+    /* =====================================================
+       CHECK LOGIN SESSION
+       ===================================================== */
+
+    const loginStatus =
+        localStorage.getItem("fsnFarmLoggedIn");
+
+    if (loginStatus === "true") {
+
+        showDashboard();
+
+    } else {
+
+        showLogin();
+
+    }
 
 
-.login-logo {
-    width: 125px;
-    height: 125px;
 
-    object-fit: contain;
+    /* =====================================================
+       LOGIN
+       ===================================================== */
 
-    margin: 0 auto 14px;
+    if (loginForm) {
 
-    filter:
-        drop-shadow(
-            0 10px 12px rgba(0, 0, 0, 0.12)
-        );
-}
+        loginForm.addEventListener(
+            "submit",
+            function (event) {
 
+                event.preventDefault();
 
-.login-brand h1 {
-    color: var(--green-dark);
+                const email =
+                    loginEmail.value.trim();
 
-    font-size: 31px;
-    font-weight: 800;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 6px;
-}
+                const password =
+                    loginPassword.value.trim();
 
 
-.login-brand p {
-    color: var(--text-soft);
+                if (
+                    email === ADMIN_EMAIL &&
+                    password === ADMIN_PASSWORD
+                ) {
 
-    font-size: 14px;
-}
+                    localStorage.setItem(
+                        "fsnFarmLoggedIn",
+                        "true"
+                    );
 
+                    if (loginError) {
+                        loginError.style.display = "none";
+                    }
 
-.input-group {
-    margin-bottom: 19px;
-}
+                    showDashboard();
 
+                } else {
 
-.input-group label {
-    display: block;
+                    if (loginError) {
 
-    margin-bottom: 8px;
+                        loginError.style.display = "block";
 
-    color: #34473d;
+                        loginError.textContent =
+                            "Email atau password salah.";
 
-    font-size: 14px;
-    font-weight: 650;
-}
+                    }
 
+                }
 
-.input-group input {
-    width: 100%;
-    height: 52px;
-
-    padding: 0 16px;
-
-    border: 1px solid var(--border);
-    border-radius: 13px;
-
-    background: #f9fbfa;
-
-    color: var(--text);
-
-    outline: none;
-
-    transition: 0.2s ease;
-}
-
-
-.input-group input::placeholder {
-    color: #a5afa9;
-}
-
-
-.input-group input:focus {
-    background: white;
-
-    border-color: var(--green);
-
-    box-shadow:
-        0 0 0 4px rgba(19, 138, 85, 0.1);
-}
-
-
-.login-btn {
-    width: 100%;
-    height: 53px;
-
-    margin-top: 5px;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--green-dark),
-            #15965d
+            }
         );
 
-    color: white;
-
-    font-weight: 750;
-    font-size: 15px;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 10px 22px rgba(8, 101, 61, 0.23);
-
-    transition: 0.2s ease;
-}
-
-
-.login-btn:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 14px 28px rgba(8, 101, 61, 0.3);
-}
-
-
-.login-btn:active {
-    transform: scale(0.99);
-}
-
-
-.login-error {
-    display: none;
-
-    margin-top: 14px;
-    padding: 11px 14px;
-
-    border-radius: 11px;
-
-    background: #fff0f0;
-
-    color: #c33c3c;
-
-    font-size: 13px;
-
-    text-align: center;
-}
-
-
-.login-footer {
-    margin-top: 28px;
-    padding-top: 21px;
-
-    border-top: 1px solid var(--border);
-
-    text-align: center;
-
-    color: var(--text-soft);
-
-    font-size: 12px;
-
-    line-height: 1.7;
-}
-
-
-.login-footer strong {
-    color: var(--green-dark);
-}
+    }
 
 
 
-/* =========================================================
-   3. APPLICATION
-   ========================================================= */
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
 
-.farm-app {
-    display: none;
-}
+    if (logoutButton) {
 
+        logoutButton.addEventListener(
+            "click",
+            function () {
 
-.app-visible {
-    display: block;
-}
+                localStorage.removeItem(
+                    "fsnFarmLoggedIn"
+                );
 
+                showLogin();
 
-
-/* =========================================================
-   4. SIDEBAR
-   ========================================================= */
-
-.sidebar {
-    position: fixed;
-
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    width: var(--sidebar-width);
-
-    padding: 25px 18px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #087347 0%,
-            #075f3b 55%,
-            #064c31 100%
+            }
         );
 
-    color: white;
+    }
 
-    display: flex;
-    flex-direction: column;
 
-    z-index: 1000;
 
-    overflow-y: auto;
+    /* =====================================================
+       DATE
+       ===================================================== */
 
-    box-shadow:
-        5px 0 25px rgba(0, 0, 0, 0.08);
-}
+    function updateDate() {
 
+        if (!currentDate) return;
 
-.sidebar-brand {
-    min-height: 85px;
+        const today = new Date();
 
-    display: flex;
-    align-items: center;
+        const formatter =
+            new Intl.DateTimeFormat(
+                "id-ID",
+                {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
 
-    gap: 13px;
+        currentDate.textContent =
+            formatter.format(today);
 
-    padding: 5px 8px 22px;
+    }
 
-    margin-bottom: 10px;
+    updateDate();
 
-    border-bottom:
-        1px solid rgba(255, 255, 255, 0.09);
-}
 
 
-.sidebar-logo {
-    width: 62px;
-    height: 62px;
+    /* =====================================================
+       SIDEBAR MOBILE / IPAD
+       ===================================================== */
 
-    object-fit: contain;
+    function openSidebar() {
 
-    flex-shrink: 0;
+        if (sidebar) {
+            sidebar.classList.add("open");
+        }
 
-    filter:
-        drop-shadow(
-            0 5px 6px rgba(0, 0, 0, 0.2)
-        );
-}
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.add("show");
+        }
 
+    }
 
-.sidebar-brand h2 {
-    font-size: 19px;
-    font-weight: 800;
 
-    letter-spacing: 0.5px;
+    function closeSidebar() {
 
-    white-space: nowrap;
-}
+        if (sidebar) {
+            sidebar.classList.remove("open");
+        }
 
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove("show");
+        }
 
-.sidebar-brand p {
-    margin-top: 4px;
+    }
 
-    font-size: 12px;
 
-    color: rgba(255, 255, 255, 0.65);
-}
+    if (menuToggle) {
 
+        menuToggle.addEventListener(
+            "click",
+            function () {
 
+                if (
+                    sidebar &&
+                    sidebar.classList.contains("open")
+                ) {
 
-/* =========================================================
-   5. SIDEBAR MENU
-   ========================================================= */
+                    closeSidebar();
 
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
+                } else {
 
-    gap: 7px;
+                    openSidebar();
 
-    flex: 1;
-}
+                }
 
-
-.menu-item {
-    width: 100%;
-
-    min-height: 51px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 14px;
-
-    padding: 11px 15px;
-
-    border-radius: 14px;
-
-    background: transparent;
-
-    color: rgba(255, 255, 255, 0.76);
-
-    font-size: 14px;
-    font-weight: 500;
-
-    text-align: left;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-
-.menu-item:hover {
-    background:
-        rgba(255, 255, 255, 0.09);
-
-    color: white;
-
-    transform: translateX(2px);
-}
-
-
-.menu-item.active {
-    background: white;
-
-    color: var(--green-dark);
-
-    font-weight: 750;
-
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-
-.menu-icon {
-    width: 24px;
-
-    text-align: center;
-
-    font-size: 19px;
-
-    flex-shrink: 0;
-}
-
-
-
-/* =========================================================
-   6. SIDEBAR STATUS
-   ========================================================= */
-
-.sidebar-status {
-    display: flex;
-    align-items: center;
-
-    gap: 11px;
-
-    margin-top: 22px;
-
-    padding: 14px;
-
-    border-radius: 14px;
-
-    background:
-        rgba(255, 255, 255, 0.08);
-}
-
-
-.status-light {
-    width: 10px;
-    height: 10px;
-
-    border-radius: 50%;
-
-    background: #5cf09d;
-
-    box-shadow:
-        0 0 0 5px rgba(92, 240, 157, 0.12);
-
-    flex-shrink: 0;
-}
-
-
-.sidebar-status strong {
-    display: block;
-
-    font-size: 13px;
-}
-
-
-.sidebar-status small {
-    display: block;
-
-    margin-top: 3px;
-
-    color: rgba(255, 255, 255, 0.65);
-
-    font-size: 10px;
-}
-
-
-.logout-button {
-    width: 100%;
-
-    margin-top: 10px;
-
-    padding: 12px;
-
-    border-radius: 12px;
-
-    background:
-        rgba(255, 255, 255, 0.08);
-
-    color:
-        rgba(255, 255, 255, 0.8);
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-
-.logout-button:hover {
-    background:
-        rgba(255, 255, 255, 0.15);
-
-    color: white;
-}
-
-
-
-/* =========================================================
-   7. MAIN AREA
-   ========================================================= */
-
-.main-area {
-    min-height: 100vh;
-
-    margin-left: var(--sidebar-width);
-}
-
-
-
-/* =========================================================
-   8. TOPBAR
-   ========================================================= */
-
-.topbar {
-    position: sticky;
-
-    top: 0;
-
-    min-height: 88px;
-
-    padding: 16px 32px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background:
-        rgba(255, 255, 255, 0.95);
-
-    border-bottom:
-        1px solid var(--border);
-
-    backdrop-filter: blur(15px);
-
-    z-index: 500;
-}
-
-
-.topbar-left {
-    display: flex;
-    align-items: center;
-
-    gap: 15px;
-}
-
-
-.topbar-left h1 {
-    font-size: 25px;
-
-    line-height: 1.2;
-
-    font-weight: 800;
-}
-
-
-.topbar-left p {
-    margin-top: 5px;
-
-    color: var(--text-soft);
-
-    font-size: 12px;
-}
-
-
-.menu-toggle {
-    display: none;
-
-    width: 43px;
-    height: 43px;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 12px;
-
-    background: var(--green-light);
-
-    color: var(--green-dark);
-
-    font-size: 21px;
-
-    cursor: pointer;
-}
-
-
-.topbar-right {
-    display: flex;
-    align-items: center;
-
-    gap: 18px;
-}
-
-
-.notification-btn {
-    position: relative;
-
-    width: 45px;
-    height: 45px;
-
-    border-radius: 13px;
-
-    background: #f5f8f6;
-
-    cursor: pointer;
-
-    font-size: 18px;
-}
-
-
-.notification-count {
-    position: absolute;
-
-    right: -3px;
-    top: -4px;
-
-    min-width: 18px;
-    height: 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: var(--red);
-
-    color: white;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-
-.admin-profile {
-    display: flex;
-    align-items: center;
-
-    gap: 11px;
-}
-
-
-.admin-avatar {
-    width: 45px;
-    height: 45px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 13px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #28a96a,
-            #62d293
+            }
         );
 
-    color: white;
-
-    font-weight: 750;
-}
+    }
 
 
-.admin-info strong {
-    display: block;
+    if (sidebarOverlay) {
 
-    font-size: 14px;
-}
-
-
-.admin-info span {
-    display: block;
-
-    margin-top: 3px;
-
-    color: var(--text-soft);
-
-    font-size: 11px;
-}
-
-
-
-/* =========================================================
-   9. DASHBOARD CONTENT
-   ========================================================= */
-
-.dashboard-content {
-    width: 100%;
-
-    max-width: 1550px;
-
-    margin: 0 auto;
-
-    padding: 30px 32px 50px;
-}
-
-
-
-/* =========================================================
-   10. HERO
-   ========================================================= */
-
-.hero-card {
-    position: relative;
-
-    min-height: 220px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 30px;
-
-    padding: 36px 42px;
-
-    overflow: hidden;
-
-    border-radius: 26px;
-
-    background:
-        linear-gradient(
-            120deg,
-            #087548 0%,
-            #15975b 55%,
-            #55bf7f 100%
+        sidebarOverlay.addEventListener(
+            "click",
+            closeSidebar
         );
 
-    color: white;
-
-    box-shadow:
-        0 15px 35px rgba(8, 101, 61, 0.16);
-}
-
-
-.hero-card::before {
-    content: "";
-
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    right: -100px;
-    top: -150px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255, 255, 255, 0.08);
-}
-
-
-.hero-card::after {
-    content: "";
-
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    right: 170px;
-    bottom: -170px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255, 255, 255, 0.06);
-}
-
-
-.hero-content {
-    position: relative;
-
-    max-width: 720px;
-
-    z-index: 2;
-}
-
-
-.hero-badge {
-    display: inline-flex;
-
-    padding: 8px 13px;
-
-    margin-bottom: 16px;
-
-    border-radius: 30px;
-
-    background:
-        rgba(255, 255, 255, 0.13);
-
-    font-size: 11px;
-    font-weight: 650;
-
-    letter-spacing: 0.8px;
-}
-
-
-.hero-content h2 {
-    font-size: clamp(28px, 3vw, 40px);
-
-    line-height: 1.15;
-
-    font-weight: 800;
-
-    margin-bottom: 13px;
-}
-
-
-.hero-content h2 span {
-    color: #ffe48b;
-}
-
-
-.hero-content p {
-    max-width: 670px;
-
-    color:
-        rgba(255, 255, 255, 0.88);
-
-    font-size: 15px;
-
-    line-height: 1.7;
-}
+    }
 
 
 
-/* LOGO HERO BARU */
+    /* =====================================================
+       SIDEBAR MENU ACTIVE
+       ===================================================== */
 
-.hero-logo {
-    position: relative;
+    const menuItems =
+        document.querySelectorAll(".menu-item");
 
-    width: 175px;
-    height: 160px;
+    menuItems.forEach(function (item) {
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        item.addEventListener(
+            "click",
+            function () {
 
-    flex-shrink: 0;
+                menuItems.forEach(
+                    function (menu) {
 
-    z-index: 2;
-}
+                        menu.classList.remove(
+                            "active"
+                        );
 
+                    }
+                );
 
-.hero-logo img {
-    width: 100%;
-    height: 100%;
+                item.classList.add("active");
 
-    object-fit: contain;
+                if (
+                    window.innerWidth <= 850
+                ) {
 
-    filter:
-        drop-shadow(
-            0 13px 15px rgba(0, 0, 0, 0.18)
+                    closeSidebar();
+
+                }
+
+            }
         );
 
-    animation:
-        logoFloat 4s ease-in-out infinite;
-}
+    });
 
 
-@keyframes logoFloat {
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
+    /* =====================================================
+       INPUT ELEMENTS
+       ===================================================== */
 
-    50% {
-        transform: translateY(-7px);
-    }
-
-}
-
-
-
-/* =========================================================
-   11. STAT CARDS
-   ========================================================= */
-
-.stats-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
-    gap: 18px;
-
-    margin-top: 24px;
-}
-
-
-.stat-card {
-    position: relative;
-
-    min-height: 135px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 16px;
-
-    padding: 22px;
-
-    background: white;
-
-    border: 1px solid var(--border);
-    border-radius: 20px;
-
-    box-shadow: var(--shadow);
-
-    overflow: hidden;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.stat-card:hover {
-    transform: translateY(-4px);
-
-    box-shadow: var(--shadow-hover);
-}
-
-
-.stat-card::before {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    width: 4px;
-}
-
-
-.stat-green::before {
-    background: #2dbd73;
-}
-
-
-.stat-orange::before {
-    background: var(--orange);
-}
-
-
-.stat-red::before {
-    background: var(--red);
-}
-
-
-.stat-blue::before {
-    background: var(--blue);
-}
-
-
-.stat-icon {
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 17px;
-
-    background: var(--green-light);
-
-    font-size: 27px;
-
-    flex-shrink: 0;
-}
-
-
-.stat-data {
-    min-width: 0;
-}
-
-
-.stat-title {
-    display: block;
-
-    margin-bottom: 5px;
-
-    color: var(--text-soft);
-
-    font-size: 12px;
-}
-
-
-.stat-data strong {
-    display: block;
-
-    margin-bottom: 4px;
-
-    color: var(--text);
-
-    font-size: 25px;
-    font-weight: 800;
-
-    line-height: 1.1;
-}
-
-
-.stat-data small {
-    color: var(--text-soft);
-
-    font-size: 10px;
-}
-
-
-
-/* =========================================================
-   12. PANELS
-   ========================================================= */
-
-.info-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 20px;
-
-    margin-top: 22px;
-}
-
-
-.panel {
-    padding: 25px;
-
-    background: white;
-
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-
-    box-shadow: var(--shadow);
-}
-
-
-.panel-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-bottom: 24px;
-}
-
-
-.panel-header h3 {
-    margin-bottom: 5px;
-
-    font-size: 17px;
-    font-weight: 750;
-}
-
-
-.panel-header p {
-    color: var(--text-soft);
-
-    font-size: 11px;
-}
-
-
-.status-badge {
-    padding: 7px 12px;
-
-    border-radius: 20px;
-
-    background: var(--green-light);
-
-    color: var(--green-dark);
-
-    font-size: 11px;
-    font-weight: 700;
-}
-
-
-
-/* =========================================================
-   13. FEED PANEL
-   ========================================================= */
-
-.feed-total {
-    display: flex;
-    align-items: baseline;
-
-    gap: 7px;
-
-    margin-bottom: 17px;
-}
-
-
-.feed-total strong {
-    color: var(--green-dark);
-
-    font-size: 37px;
-    font-weight: 800;
-}
-
-
-.feed-total span {
-    color: var(--text-soft);
-
-    font-size: 12px;
-}
-
-
-.feed-progress {
-    width: 100%;
-    height: 11px;
-
-    overflow: hidden;
-
-    border-radius: 20px;
-
-    background: #edf2ef;
-}
-
-
-.feed-progress-bar {
-    width: 0%;
-    height: 100%;
-
-    border-radius: inherit;
-
-    background:
-        linear-gradient(
-            90deg,
-            #f4aa25,
-            #ffc75a
+    const initialChicken =
+        document.getElementById(
+            "initialChicken"
         );
 
-    transition: width 0.5s ease;
-}
-
-
-.progress-labels {
-    display: flex;
-    justify-content: space-between;
-
-    margin-top: 8px;
-
-    color: var(--text-soft);
-
-    font-size: 10px;
-}
-
-
-
-/* =========================================================
-   14. PERFORMANCE
-   ========================================================= */
-
-.performance-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 12px;
-}
-
-
-.performance-box {
-    min-height: 82px;
-
-    padding: 15px;
-
-    border-radius: 15px;
-
-    background: #f6f9f7;
-}
-
-
-.performance-box span {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: var(--text-soft);
-
-    font-size: 11px;
-}
-
-
-.performance-box strong {
-    color: var(--green-dark);
-
-    font-size: 18px;
-}
-
-
-
-/* =========================================================
-   15. INPUT PANEL
-   ========================================================= */
-
-.input-panel {
-    margin-top: 22px;
-}
-
-
-.active-system {
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 7px 11px;
-
-    border-radius: 20px;
-
-    background: var(--green-light);
-
-    color: var(--green-dark);
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-
-.active-system span {
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: #25b96b;
-
-    box-shadow:
-        0 0 0 4px rgba(37, 185, 107, 0.12);
-}
-
-
-.form-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 18px;
-}
-
-
-.form-field label {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #34463d;
-
-    font-size: 12px;
-    font-weight: 650;
-}
-
-
-.form-field input {
-    width: 100%;
-    height: 49px;
-
-    padding: 0 15px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 12px;
-
-    background: #f9fbfa;
-
-    color: var(--text);
-
-    outline: none;
-
-    transition: 0.2s ease;
-}
-
-
-.form-field input:focus {
-    background: white;
-
-    border-color: var(--green);
-
-    box-shadow:
-        0 0 0 4px rgba(19, 138, 85, 0.09);
-}
-
-
-.form-actions {
-    display: flex;
-
-    justify-content: flex-end;
-
-    margin-top: 22px;
-}
-
-
-.save-button {
-    min-width: 220px;
-
-    padding: 14px 20px;
-
-    border-radius: 13px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--green-dark),
-            #15975d
+    const dailyDeath =
+        document.getElementById(
+            "dailyDeath"
         );
 
-    color: white;
+    const initialFeed =
+        document.getElementById(
+            "initialFeed"
+        );
 
-    font-weight: 700;
+    const feedIncoming =
+        document.getElementById(
+            "feedIncoming"
+        );
 
-    cursor: pointer;
+    const feedUsed =
+        document.getElementById(
+            "feedUsed"
+        );
 
-    box-shadow:
-        0 9px 20px rgba(8, 101, 61, 0.2);
-
-    transition: 0.2s ease;
-}
-
-
-.save-button:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 12px 25px rgba(8, 101, 61, 0.28);
-}
-
-
-.success-message {
-    display: none;
-
-    margin-top: 17px;
-    padding: 13px 15px;
-
-    border-radius: 12px;
-
-    background: #eaf8f0;
-
-    color: var(--green-dark);
-
-    font-size: 12px;
-    font-weight: 600;
-}
-
-
-.error-message {
-    display: none;
-
-    margin-top: 14px;
-    padding: 13px;
-
-    border-radius: 12px;
-
-    background: #fff0f0;
-
-    color: #c53d3d;
-
-    font-size: 12px;
-}
+    const averageWeight =
+        document.getElementById(
+            "averageWeight"
+        );
 
 
 
-/* =========================================================
-   16. HISTORY TABLE
-   ========================================================= */
+    /* =====================================================
+       DASHBOARD OUTPUT
+       ===================================================== */
 
-.recent-panel {
-    margin-top: 22px;
-}
+    const liveChicken =
+        document.getElementById(
+            "liveChicken"
+        );
 
+    const deadChicken =
+        document.getElementById(
+            "deadChicken"
+        );
 
-.table-wrapper {
-    width: 100%;
+    const feedStock =
+        document.getElementById(
+            "feedStock"
+        );
 
-    overflow-x: auto;
-}
+    const harvestChicken =
+        document.getElementById(
+            "harvestChicken"
+        );
 
+    const feedPanelValue =
+        document.getElementById(
+            "feedPanelValue"
+        );
 
-.farm-table {
-    width: 100%;
+    const mortalityRate =
+        document.getElementById(
+            "mortalityRate"
+        );
 
-    border-collapse: collapse;
+    const weightValue =
+        document.getElementById(
+            "weightValue"
+        );
 
-    min-width: 720px;
-}
-
-
-.farm-table th {
-    padding: 13px 14px;
-
-    background: #f5f8f6;
-
-    color: var(--text-soft);
-
-    font-size: 11px;
-    font-weight: 650;
-
-    text-align: left;
-}
-
-
-.farm-table th:first-child {
-    border-radius: 11px 0 0 11px;
-}
-
-
-.farm-table th:last-child {
-    border-radius: 0 11px 11px 0;
-}
-
-
-.farm-table td {
-    padding: 15px 14px;
-
-    border-bottom:
-        1px solid #edf1ef;
-
-    font-size: 12px;
-}
-
-
-.empty-row td {
-    padding: 35px;
-
-    text-align: center;
-
-    color: var(--text-soft);
-}
+    const feedProgressBar =
+        document.getElementById(
+            "feedProgressBar"
+        );
 
 
 
-/* =========================================================
-   17. SIDEBAR OVERLAY
-   ========================================================= */
+    /* =====================================================
+       NUMBER HELPER
+       ===================================================== */
 
-.sidebar-overlay {
-    display: none;
+    function getNumber(element) {
 
-    position: fixed;
+        if (!element) return 0;
 
-    inset: 0;
+        const value =
+            parseFloat(element.value);
 
-    background:
-        rgba(0, 0, 0, 0.4);
+        if (isNaN(value)) {
+            return 0;
+        }
 
-    z-index: 900;
-}
+        return value;
 
-
-
-/* =========================================================
-   18. TABLET
-   ========================================================= */
-
-@media (max-width: 1100px) {
-
-    :root {
-        --sidebar-width: 235px;
     }
 
 
-    .sidebar {
-        padding-left: 14px;
-        padding-right: 14px;
+
+    /* =====================================================
+       FORMAT NUMBER INDONESIA
+       ===================================================== */
+
+    function formatNumber(number) {
+
+        return new Intl.NumberFormat(
+            "id-ID"
+        ).format(number);
+
     }
 
 
-    .sidebar-brand h2 {
-        font-size: 16px;
+
+    /* =====================================================
+       CALCULATE FARM DATA
+       ===================================================== */
+
+    function calculateFarmData(data) {
+
+        const initial =
+            Number(data.initialChicken) || 0;
+
+        const deaths =
+            Number(data.dailyDeath) || 0;
+
+        const feedInitial =
+            Number(data.initialFeed) || 0;
+
+        const incoming =
+            Number(data.feedIncoming) || 0;
+
+        const used =
+            Number(data.feedUsed) || 0;
+
+        const weight =
+            Number(data.averageWeight) || 0;
+
+
+        /* LIVE CHICKEN */
+
+        let live =
+            initial - deaths;
+
+        if (live < 0) {
+            live = 0;
+        }
+
+
+        /* FEED */
+
+        let feed =
+            feedInitial +
+            incoming -
+            used;
+
+        if (feed < 0) {
+            feed = 0;
+        }
+
+
+        /* MORTALITY */
+
+        let mortality = 0;
+
+        if (initial > 0) {
+
+            mortality =
+                (deaths / initial) * 100;
+
+        }
+
+
+        /* HARVEST ESTIMATION
+
+           Untuk sekarang:
+           ayam dianggap mendekati siap panen
+           jika bobot >= 1.8 kg.
+
+        */
+
+        let harvest = 0;
+
+        if (weight >= 1.8) {
+
+            harvest = live;
+
+        }
+
+
+        return {
+
+            initialChicken: initial,
+
+            dailyDeath: deaths,
+
+            liveChicken: live,
+
+            initialFeed: feedInitial,
+
+            feedIncoming: incoming,
+
+            feedUsed: used,
+
+            feedStock: feed,
+
+            averageWeight: weight,
+
+            mortalityRate: mortality,
+
+            harvestChicken: harvest,
+
+            date: new Date().toISOString()
+
+        };
+
     }
 
 
-    .sidebar-logo {
-        width: 52px;
-        height: 52px;
+
+    /* =====================================================
+       UPDATE DASHBOARD
+       ===================================================== */
+
+    function updateDashboard(data) {
+
+        if (!data) return;
+
+
+        if (liveChicken) {
+
+            liveChicken.textContent =
+                formatNumber(
+                    data.liveChicken
+                );
+
+        }
+
+
+        if (deadChicken) {
+
+            deadChicken.textContent =
+                formatNumber(
+                    data.dailyDeath
+                );
+
+        }
+
+
+        if (feedStock) {
+
+            feedStock.textContent =
+                formatNumber(
+                    data.feedStock
+                ) + " kg";
+
+        }
+
+
+        if (feedPanelValue) {
+
+            feedPanelValue.textContent =
+                formatNumber(
+                    data.feedStock
+                );
+
+        }
+
+
+        if (harvestChicken) {
+
+            harvestChicken.textContent =
+                formatNumber(
+                    data.harvestChicken
+                );
+
+        }
+
+
+        if (mortalityRate) {
+
+            mortalityRate.textContent =
+                data.mortalityRate
+                    .toFixed(2) + "%";
+
+        }
+
+
+        if (weightValue) {
+
+            weightValue.textContent =
+                data.averageWeight
+                    .toFixed(2) + " kg";
+
+        }
+
+
+        /* FEED PROGRESS */
+
+        if (feedProgressBar) {
+
+            const capacity = 5000;
+
+            let percentage =
+                (
+                    data.feedStock /
+                    capacity
+                ) * 100;
+
+            if (percentage > 100) {
+                percentage = 100;
+            }
+
+            if (percentage < 0) {
+                percentage = 0;
+            }
+
+            feedProgressBar.style.width =
+                percentage + "%";
+
+        }
+
     }
 
 
-    .dashboard-content {
-        padding:
-            25px 24px 45px;
+
+    /* =====================================================
+       SAVE DAILY DATA
+       ===================================================== */
+
+    if (saveButton) {
+
+        saveButton.addEventListener(
+            "click",
+            function () {
+
+                const inputData = {
+
+                    initialChicken:
+                        getNumber(
+                            initialChicken
+                        ),
+
+                    dailyDeath:
+                        getNumber(
+                            dailyDeath
+                        ),
+
+                    initialFeed:
+                        getNumber(
+                            initialFeed
+                        ),
+
+                    feedIncoming:
+                        getNumber(
+                            feedIncoming
+                        ),
+
+                    feedUsed:
+                        getNumber(
+                            feedUsed
+                        ),
+
+                    averageWeight:
+                        getNumber(
+                            averageWeight
+                        )
+
+                };
+
+
+                /* VALIDATION */
+
+                if (
+                    inputData.dailyDeath >
+                    inputData.initialChicken
+                ) {
+
+                    alert(
+                        "Jumlah ayam mati tidak boleh melebihi populasi awal."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    inputData.feedUsed >
+                    (
+                        inputData.initialFeed +
+                        inputData.feedIncoming
+                    )
+                ) {
+
+                    alert(
+                        "Pakan digunakan melebihi stok pakan tersedia."
+                    );
+
+                    return;
+
+                }
+
+
+                const calculatedData =
+                    calculateFarmData(
+                        inputData
+                    );
+
+
+                /* SAVE CURRENT DATA */
+
+                localStorage.setItem(
+                    "fsnFarmData",
+                    JSON.stringify(
+                        calculatedData
+                    )
+                );
+
+
+                /* SAVE HISTORY */
+
+                saveHistory(
+                    calculatedData
+                );
+
+
+                /* UPDATE DASHBOARD */
+
+                updateDashboard(
+                    calculatedData
+                );
+
+
+                /* SUCCESS MESSAGE */
+
+                if (successMessage) {
+
+                    successMessage.style.display =
+                        "block";
+
+                    successMessage.textContent =
+                        "✓ Data peternakan berhasil disimpan";
+
+                    setTimeout(
+                        function () {
+
+                            successMessage.style.display =
+                                "none";
+
+                        },
+                        3000
+                    );
+
+                }
+
+            }
+        );
+
     }
 
 
-    .stats-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+
+    /* =====================================================
+       SAVE HISTORY
+       ===================================================== */
+
+    function saveHistory(data) {
+
+        let history = [];
+
+        const existingHistory =
+            localStorage.getItem(
+                "fsnFarmHistory"
+            );
+
+
+        if (existingHistory) {
+
+            try {
+
+                history =
+                    JSON.parse(
+                        existingHistory
+                    );
+
+            } catch (error) {
+
+                history = [];
+
+            }
+
+        }
+
+
+        history.unshift(data);
+
+
+        /* SIMPAN MAKSIMAL 30 DATA */
+
+        if (history.length > 30) {
+
+            history =
+                history.slice(0, 30);
+
+        }
+
+
+        localStorage.setItem(
+            "fsnFarmHistory",
+            JSON.stringify(history)
+        );
+
+
+        renderHistory();
+
     }
 
 
-    .hero-logo {
-        width: 145px;
-        height: 140px;
-    }
 
-}
+    /* =====================================================
+       LOAD FARM DATA
+       ===================================================== */
 
+    function loadFarmData() {
 
-
-/* =========================================================
-   19. MOBILE / IPAD PORTRAIT
-   ========================================================= */
-
-@media (max-width: 850px) {
-
-    .sidebar {
-        width: 270px;
-
-        transform:
-            translateX(-105%);
-
-        transition:
-            transform 0.28s ease;
-    }
+        const storedData =
+            localStorage.getItem(
+                "fsnFarmData"
+            );
 
 
-    .sidebar.open {
-        transform:
-            translateX(0);
-    }
+        if (!storedData) {
+
+            updateDashboard({
+
+                liveChicken: 0,
+
+                dailyDeath: 0,
+
+                feedStock: 0,
+
+                harvestChicken: 0,
+
+                mortalityRate: 0,
+
+                averageWeight: 0
+
+            });
+
+            renderHistory();
+
+            return;
+
+        }
 
 
-    .sidebar-overlay.show {
-        display: block;
-    }
+        try {
+
+            const data =
+                JSON.parse(storedData);
 
 
-    .main-area {
-        margin-left: 0;
-    }
+            updateDashboard(data);
 
 
-    .menu-toggle {
-        display: flex;
-    }
+            /* RESTORE INPUT */
+
+            if (initialChicken) {
+
+                initialChicken.value =
+                    data.initialChicken || "";
+
+            }
 
 
-    .topbar {
-        padding:
-            14px 20px;
-    }
+            if (dailyDeath) {
+
+                dailyDeath.value =
+                    data.dailyDeath || "";
+
+            }
 
 
-    .dashboard-content {
-        padding:
-            22px 18px 40px;
-    }
+            if (initialFeed) {
+
+                initialFeed.value =
+                    data.initialFeed || "";
+
+            }
 
 
-    .hero-card {
-        min-height: 200px;
+            if (feedIncoming) {
 
-        padding:
-            30px 27px;
-    }
+                feedIncoming.value =
+                    data.feedIncoming || "";
 
-
-    .hero-logo {
-        width: 130px;
-        height: 125px;
-    }
+            }
 
 
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
+            if (feedUsed) {
 
-}
+                feedUsed.value =
+                    data.feedUsed || "";
 
-
-
-/* =========================================================
-   20. PHONE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .login-card {
-        padding:
-            30px 23px;
-    }
+            }
 
 
-    .login-logo {
-        width: 105px;
-        height: 105px;
-    }
+            if (averageWeight) {
+
+                averageWeight.value =
+                    data.averageWeight || "";
+
+            }
 
 
-    .topbar {
-        min-height: 76px;
+        } catch (error) {
 
-        padding:
-            12px 15px;
-    }
+            console.error(
+                "Gagal membaca data FSN Farm:",
+                error
+            );
 
-
-    .topbar-left h1 {
-        font-size: 20px;
-    }
+        }
 
 
-    .admin-info {
-        display: none;
+        renderHistory();
+
     }
 
 
-    .topbar-right {
-        gap: 9px;
+
+    /* =====================================================
+       HISTORY TABLE
+       ===================================================== */
+
+    function renderHistory() {
+
+        const tableBody =
+            document.getElementById(
+                "historyTableBody"
+            );
+
+
+        if (!tableBody) return;
+
+
+        const storedHistory =
+            localStorage.getItem(
+                "fsnFarmHistory"
+            );
+
+
+        if (!storedHistory) {
+
+            tableBody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="6">
+                        Belum ada data peternakan.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        let history;
+
+
+        try {
+
+            history =
+                JSON.parse(
+                    storedHistory
+                );
+
+        } catch (error) {
+
+            history = [];
+
+        }
+
+
+        if (
+            !Array.isArray(history) ||
+            history.length === 0
+        ) {
+
+            tableBody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="6">
+                        Belum ada data peternakan.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        tableBody.innerHTML = "";
+
+
+        history
+            .slice(0, 10)
+            .forEach(function (item) {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                const date =
+                    new Date(item.date);
+
+
+                const formattedDate =
+                    date.toLocaleDateString(
+                        "id-ID",
+                        {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric"
+                        }
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${formattedDate}
+                    </td>
+
+                    <td>
+                        ${formatNumber(
+                            item.liveChicken || 0
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatNumber(
+                            item.dailyDeath || 0
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatNumber(
+                            item.feedStock || 0
+                        )} kg
+                    </td>
+
+                    <td>
+                        ${
+                            Number(
+                                item.averageWeight || 0
+                            ).toFixed(2)
+                        } kg
+                    </td>
+
+                    <td>
+                        ${
+                            Number(
+                                item.mortalityRate || 0
+                            ).toFixed(2)
+                        }%
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(row);
+
+            });
+
     }
 
 
-    .admin-avatar {
-        width: 40px;
-        height: 40px;
+
+    /* =====================================================
+       LIVE PREVIEW INPUT
+       ===================================================== */
+
+    const farmInputs = [
+
+        initialChicken,
+        dailyDeath,
+        initialFeed,
+        feedIncoming,
+        feedUsed,
+        averageWeight
+
+    ];
+
+
+    farmInputs.forEach(
+        function (input) {
+
+            if (!input) return;
+
+
+            input.addEventListener(
+                "input",
+                function () {
+
+                    const preview =
+                        calculateFarmData({
+
+                            initialChicken:
+                                getNumber(
+                                    initialChicken
+                                ),
+
+                            dailyDeath:
+                                getNumber(
+                                    dailyDeath
+                                ),
+
+                            initialFeed:
+                                getNumber(
+                                    initialFeed
+                                ),
+
+                            feedIncoming:
+                                getNumber(
+                                    feedIncoming
+                                ),
+
+                            feedUsed:
+                                getNumber(
+                                    feedUsed
+                                ),
+
+                            averageWeight:
+                                getNumber(
+                                    averageWeight
+                                )
+
+                        });
+
+
+                    updateDashboard(
+                        preview
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       WINDOW RESIZE
+       ===================================================== */
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            if (
+                window.innerWidth > 850
+            ) {
+
+                closeSidebar();
+
+            }
+
+        }
+    );
+
+
+
+    /* =====================================================
+       INITIAL DATA LOAD
+       ===================================================== */
+
+    if (
+        localStorage.getItem(
+            "fsnFarmLoggedIn"
+        ) === "true"
+    ) {
+
+        loadFarmData();
+
     }
 
 
-    .notification-btn {
-        width: 40px;
-        height: 40px;
-    }
+    console.log(
+        "FSN Farm Management System loaded successfully."
+    );
 
-
-    .dashboard-content {
-        padding:
-            16px 13px 35px;
-    }
-
-
-    .hero-card {
-        min-height: auto;
-
-        padding:
-            25px 22px;
-    }
-
-
-    .hero-content h2 {
-        font-size: 27px;
-    }
-
-
-    .hero-content p {
-        font-size: 13px;
-    }
-
-
-    .hero-logo {
-        width: 100px;
-        height: 100px;
-    }
-
-
-    .stats-grid {
-        grid-template-columns: 1fr;
-
-        gap: 12px;
-
-        margin-top: 16px;
-    }
-
-
-    .stat-card {
-        min-height: 110px;
-
-        padding: 18px;
-    }
-
-
-    .stat-icon {
-        width: 52px;
-        height: 52px;
-    }
-
-
-    .info-grid {
-        gap: 14px;
-
-        margin-top: 15px;
-    }
-
-
-    .panel {
-        padding: 19px;
-
-        border-radius: 17px;
-    }
-
-
-    .performance-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-
-    .form-actions {
-        display: block;
-    }
-
-
-    .save-button {
-        width: 100%;
-    }
-
-}
-
-
-
-/* =========================================================
-   21. VERY SMALL SCREEN
-   ========================================================= */
-
-@media (max-width: 420px) {
-
-    .hero-card {
-        display: block;
-    }
-
-
-    .hero-logo {
-        width: 100px;
-        height: 100px;
-
-        margin:
-            20px auto 0;
-    }
-
-
-    .hero-badge {
-        font-size: 9px;
-    }
-
-
-    .performance-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
+});
