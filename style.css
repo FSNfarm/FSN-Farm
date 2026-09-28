@@ -2042,3 +2042,792 @@ img {
     }
 
 }
+/* =========================================================
+   PANEN & PRODUKSI
+========================================================= */
+
+.harvest-page {
+    display: none;
+    animation: pageFade .3s ease;
+}
+
+.harvest-page.active {
+    display: block;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* HEADER */
+
+.harvest-header {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 190px;
+
+    padding: 32px 40px;
+    margin-bottom: 22px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #087347,
+            #16a05d,
+            #47bd7e
+        );
+
+    border-radius: 24px;
+}
+
+.harvest-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    right: -80px;
+    top: -120px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+.harvest-header h2 {
+    margin-top: 10px;
+
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.harvest-header p {
+    max-width: 620px;
+
+    margin-top: 7px;
+
+    font-size: 13px;
+
+    opacity: .85;
+}
+
+.harvest-badge {
+    display: inline-flex;
+
+    padding: 6px 12px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    background:
+        rgba(255,255,255,.14);
+
+    border-radius: 30px;
+}
+
+.harvest-logo {
+    position: relative;
+    z-index: 2;
+
+    width: 150px;
+}
+
+.harvest-logo img {
+    width: 140px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 10px 15px
+            rgba(0,0,0,.2)
+        );
+}
+
+
+/* SUMMARY */
+
+.harvest-summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 17px;
+
+    margin-bottom: 22px;
+}
+
+.harvest-summary-card {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    min-height: 110px;
+
+    padding: 18px;
+
+    background: white;
+
+    border:
+        1px solid #e4ece7;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 6px 20px
+        rgba(20,70,45,.05);
+}
+
+.harvest-summary-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 24px;
+
+    border-radius: 14px;
+}
+
+.harvest-summary-icon.egg {
+    background: #fff5d9;
+}
+
+.harvest-summary-icon.chick {
+    background: #fff0c7;
+}
+
+.harvest-summary-icon.chicken {
+    background: #e7f8ef;
+}
+
+.harvest-summary-icon.money {
+    background: #e7f1ff;
+}
+
+.harvest-summary-card div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.harvest-summary-card span {
+    color: #718078;
+
+    font-size: 10px;
+}
+
+.harvest-summary-card strong {
+    color: #087347;
+
+    font-size: 22px;
+}
+
+.harvest-summary-card small {
+    color: #8a9690;
+
+    font-size: 9px;
+}
+
+
+/* SECTION */
+
+.harvest-section,
+.business-model-panel {
+    margin-bottom: 22px;
+
+    padding: 24px;
+
+    background: white;
+
+    border:
+        1px solid #e3ebe6;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(20,60,40,.04);
+}
+
+.harvest-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.harvest-section-header h3 {
+    color: #1b2c23;
+
+    font-size: 17px;
+}
+
+.harvest-section-header p {
+    margin-top: 4px;
+
+    color: #7a8780;
+
+    font-size: 10px;
+}
+
+.production-status {
+    padding: 6px 11px;
+
+    color: #087347;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    background: #e8f8ef;
+
+    border-radius: 30px;
+}
+
+
+/* PRODUCTION */
+
+.production-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 12px;
+
+    margin-bottom: 22px;
+}
+
+.production-stat {
+    padding: 16px;
+
+    background: #f7faf8;
+
+    border-radius: 14px;
+}
+
+.production-stat span {
+    display: block;
+
+    color: #77847d;
+
+    font-size: 10px;
+}
+
+.production-stat strong {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #087347;
+
+    font-size: 23px;
+}
+
+.production-stat small {
+    color: #909a95;
+
+    font-size: 9px;
+}
+
+
+/* FORM */
+
+.harvest-form-grid,
+.sales-form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 15px;
+}
+
+.harvest-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.harvest-field label {
+    color: #405047;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.harvest-field input,
+.harvest-field select {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 13px;
+
+    color: #1b2b23;
+
+    background: #fafcfb;
+
+    border:
+        1px solid #dfe8e3;
+
+    border-radius: 11px;
+
+    outline: none;
+}
+
+.harvest-field input:focus,
+.harvest-field select:focus {
+    border-color: #16a05d;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(22,160,93,.1);
+}
+
+.harvest-save-button {
+    margin-top: 18px;
+
+    padding: 12px 18px;
+
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #087347,
+            #16a05d
+        );
+
+    border-radius: 11px;
+
+    cursor: pointer;
+}
+
+
+/* INCUBATOR */
+
+.incubator-dashboard {
+    display: flex;
+    align-items: stretch;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.incubator-card {
+    flex: 1;
+
+    padding: 17px;
+
+    text-align: center;
+
+    background: #f7faf8;
+
+    border-radius: 14px;
+}
+
+.incubator-card span {
+    display: block;
+
+    color: #748179;
+
+    font-size: 10px;
+}
+
+.incubator-card strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #087347;
+
+    font-size: 25px;
+}
+
+.incubator-card small {
+    color: #89948e;
+
+    font-size: 9px;
+}
+
+.incubator-arrow {
+    display: flex;
+    align-items: center;
+
+    color: #a0ada6;
+
+    font-size: 20px;
+}
+
+.hatch-rate {
+    background:
+        #e9f8f0;
+}
+
+
+/* CHICKEN CYCLE */
+
+.chicken-cycle {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.cycle-card {
+    flex: 1;
+
+    padding: 18px;
+
+    text-align: center;
+
+    background: #f7faf8;
+
+    border:
+        1px solid #edf2ef;
+
+    border-radius: 15px;
+}
+
+.cycle-icon {
+    font-size: 27px;
+}
+
+.cycle-card span {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #718078;
+
+    font-size: 10px;
+}
+
+.cycle-card strong {
+    display: block;
+
+    color: #087347;
+
+    font-size: 24px;
+}
+
+.cycle-card small {
+    color: #8d9892;
+
+    font-size: 9px;
+}
+
+.cycle-arrow {
+    color: #9ba8a1;
+
+    font-size: 20px;
+}
+
+
+/* BREEDER */
+
+.breeder-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 13px;
+}
+
+.breeder-card {
+    padding: 17px;
+
+    background: #f7faf8;
+
+    border-radius: 14px;
+}
+
+.breeder-card span {
+    display: block;
+
+    color: #738078;
+
+    font-size: 10px;
+}
+
+.breeder-card strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #087347;
+
+    font-size: 22px;
+}
+
+.breeder-card small {
+    color: #8b9690;
+
+    font-size: 9px;
+}
+
+
+/* REVENUE */
+
+.revenue-preview {
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 13px;
+
+    color: #087347;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    background: #eaf8f0;
+
+    border-radius: 11px;
+}
+
+
+/* BUSINESS MODEL */
+
+.business-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.business-node {
+    flex: 1;
+
+    min-height: 110px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8fcfa,
+            #eef8f2
+        );
+
+    border:
+        1px solid #deebe4;
+
+    border-radius: 16px;
+}
+
+.business-node > span {
+    font-size: 28px;
+}
+
+.business-node strong {
+    margin-top: 4px;
+
+    color: #087347;
+
+    font-size: 12px;
+}
+
+.business-node small {
+    color: #829088;
+
+    font-size: 9px;
+}
+
+.business-arrow {
+    color: #21a565;
+
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.business-branches {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 13px;
+
+    margin-top: 20px;
+}
+
+.business-branch {
+    padding: 17px;
+
+    background: #f8faf9;
+
+    border-radius: 14px;
+}
+
+.business-branch > span {
+    font-size: 23px;
+}
+
+.business-branch strong {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #25362d;
+
+    font-size: 11px;
+}
+
+.business-branch p {
+    margin-top: 4px;
+
+    color: #7a8780;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .harvest-summary-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .production-stats {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .harvest-form-grid,
+    .sales-form-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .breeder-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .harvest-header {
+        padding: 25px;
+    }
+
+    .harvest-header h2 {
+        font-size: 27px;
+    }
+
+    .harvest-logo {
+        width: 100px;
+    }
+
+    .harvest-logo img {
+        width: 95px;
+    }
+
+    .incubator-dashboard,
+    .chicken-cycle,
+    .business-flow {
+        flex-direction: column;
+    }
+
+    .incubator-card,
+    .cycle-card,
+    .business-node {
+        width: 100%;
+    }
+
+    .incubator-arrow,
+    .cycle-arrow,
+    .business-arrow {
+        transform: rotate(90deg);
+    }
+
+    .business-branches {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .harvest-summary-grid,
+    .production-stats,
+    .harvest-form-grid,
+    .sales-form-grid,
+    .breeder-grid,
+    .business-branches {
+        grid-template-columns: 1fr;
+    }
+
+    .harvest-header {
+        min-height: 180px;
+    }
+
+    .harvest-logo {
+        position: absolute;
+
+        right: 15px;
+        top: 15px;
+
+        opacity: .3;
+    }
+
+    .harvest-section,
+    .business-model-panel {
+        padding: 18px;
+    }
+
+}
