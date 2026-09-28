@@ -20,15 +20,13 @@
 <body>
 
 
-<!-- =====================================================
+<!-- =========================
      LOGIN PAGE
-===================================================== -->
+========================= -->
 
 <section id="loginPage" class="login-page">
 
     <div class="login-card">
-
-        <!-- LOGO -->
 
         <div class="login-brand">
 
@@ -47,6 +45,79 @@
         </div>
 
 
+        <form id="loginForm" class="login-form">
+
+            <div class="login-form-group">
+
+                <label for="loginEmail">
+                    Email / Username
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    class="login-input"
+                    placeholder="Masukkan email"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="login-form-group">
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    class="login-input"
+                    placeholder="Masukkan password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                id="loginButton"
+                class="login-button"
+            >
+                <span>🔐</span>
+                Masuk ke FSN Farm
+            </button>
+
+
+            <div
+                id="loginError"
+                class="login-error"
+            >
+                Email atau password salah.
+            </div>
+
+        </form>
+
+
+        <div class="login-footer">
+
+            <strong>
+                FSN Farm Management System
+            </strong>
+
+            <span>
+                Secure Farm Data Management
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
         <!-- LOGIN FORM -->
 
         <form id="loginForm" onsubmit="return false;">
