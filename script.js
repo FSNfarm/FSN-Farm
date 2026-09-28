@@ -1,90 +1,112 @@
+"use strict";
+
 /* =========================================================
    FSN FARM MANAGEMENT SYSTEM
-   FINAL SCRIPT.JS
+   script.js
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
 
-    /* =====================================================
-       ELEMENT
-       ===================================================== */
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
 
-    const loginPage = document.getElementById("loginPage");
-    const farmApp = document.getElementById("farmApp");
+const CONFIG = {
+    FEED_CAPACITY: 5000,
+    HARVEST_WEIGHT: 1.8,
 
-    const loginForm = document.getElementById("loginForm");
-    const loginEmail = document.getElementById("loginEmail");
-    const loginPassword = document.getElementById("loginPassword");
-    const loginError = document.getElementById("loginError");
-
-    const logoutButton = document.getElementById("logoutButton");
-
-    const sidebar = document.getElementById("sidebar");
-    const menuToggle = document.getElementById("menuToggle");
-    const sidebarOverlay = document.getElementById("sidebarOverlay");
-
-    const currentDate = document.getElementById("currentDate");
-
-    const saveButton = document.getElementById("saveDailyData");
-    const successMessage = document.getElementById("successMessage");
+    // Login sementara.
+    // Nanti dapat diganti dengan Supabase Authentication.
+    LOGIN_EMAIL: "admin@fsnfarm.com",
+    LOGIN_PASSWORD: "admin123"
+};
 
 
+/* =========================================================
+   DOM READY
+   ========================================================= */
 
-    /* =====================================================
-       LOGIN CONFIGURATION
-       GANTI EMAIL DAN PASSWORD DI SINI
-       ===================================================== */
+document.addEventListener("DOMContentLoaded", () => {
 
-    const ADMIN_EMAIL = "admin@fsnfarm.com";
-    const ADMIN_PASSWORD = "123456";
+    console.log("FSN Farm System Loaded");
+
+    initLogin();
+    initLogout();
+
+    initSidebar();
+
+    updateCurrentDate();
+
+    initFarmForm();
+
+    loadFarmData();
+
+    initMenu();
+
+});
 
 
+/* =========================================================
+   HELPER
+   ========================================================= */
 
-    /* =====================================================
-       SHOW LOGIN
-       ===================================================== */
+function getElement(id) {
 
-    function showLogin() {
+    return document.getElementById(id);
 
-        if (loginPage) {
-            loginPage.style.display = "flex";
-        }
+}
 
-        if (farmApp) {
-            farmApp.style.display = "none";
-        }
 
+function getNumber(id) {
+
+    const element = getElement(id);
+
+    if (!element) {
+        return 0;
+    }
+
+    const value = parseFloat(element.value);
+
+    return Number.isFinite(value) ? value : 0;
+
+}
+
+
+function formatNumber(value, maximumFractionDigits = 2) {
+
+    return Number(value || 0).toLocaleString("id-ID", {
+        maximumFractionDigits
+    });
+
+}
+
+
+/* =========================================================
+   LOGIN SYSTEM
+   ========================================================= */
+
+function initLogin() {
+
+    const loginPage = getElement("loginPage");
+    const farmApp = getElement("farmApp");
+
+    const loginForm = getElement("loginForm");
+    const loginError = getElement("loginError");
+
+    if (!loginPage || !farmApp) {
+        console.error("Login page atau farmApp tidak ditemukan.");
+        return;
     }
 
 
-
-    /* =====================================================
-       SHOW DASHBOARD
-       ===================================================== */
-
-    function showDashboard() {
-
-        if (loginPage) {
-            loginPage.style.display = "none";
-        }
-
-        if (farmApp) {
-            farmApp.style.display = "block";
-        }
-
-        loadFarmData();
-    }
-
-
-
-    /* =====================================================
+    /* -----------------------------------------
        CHECK LOGIN SESSION
-       ===================================================== */
+       ----------------------------------------- */
 
-    const loginStatus =
-        localStorage.getItem("fsnFarmLoggedIn");
+    const loggedIn =
+        sessionStorage.getItem("fsnFarmLoggedIn") === "true";
 
-    if (loginStatus === "true") {
+
+    if (loggedIn) {
 
         showDashboard();
 
@@ -93,46 +115,63 @@ document.addEventListener("DOMContentLoaded", function () {
         showLogin();
 
     }
-/* =====================================================
-   LOGIN FSN FARM
-   ===================================================== */
 
-const loginButton = document.getElementById("loginButton");
 
-if (loginButton) {
+    /* -----------------------------------------
+       LOGIN SUBMIT
+       ----------------------------------------- */
 
-    loginButton.addEventListener("click", function () {
+    if (!loginForm) {
 
-        const email = loginEmail.value.trim();
-        const password = loginPassword.value.trim();
+        console.error("loginForm tidak ditemukan.");
 
-        console.log("Login button clicked");
+        return;
+
+    }
+
+
+    loginForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+
+        const email =
+            getElement("loginEmail")?.value.trim() || "";
+
+        const password =
+            getElement("loginPassword")?.value || "";
+
 
         if (
-            email === ADMIN_EMAIL &&
-            password === ADMIN_PASSWORD
+            email === CONFIG.LOGIN_EMAIL &&
+            password === CONFIG.LOGIN_PASSWORD
         ) {
 
-            localStorage.setItem(
+            sessionStorage.setItem(
                 "fsnFarmLoggedIn",
                 "true"
             );
 
+
             if (loginError) {
+
                 loginError.style.display = "none";
+
             }
 
-            loginPage.style.display = "none";
-            farmApp.style.display = "block";
 
-            loadFarmData();
+            showDashboard();
+
 
         } else {
 
             if (loginError) {
-                loginError.style.display = "block";
+
                 loginError.textContent =
-                    "Email atau password salah.";
+                    "Email / username atau password salah.";
+
+                loginError.style.display = "block";
+
             }
 
         }
@@ -140,86 +179,155 @@ if (loginButton) {
     });
 
 }
-    /* =====================================================
-       LOGOUT
-       ===================================================== */
 
-    if (logoutButton) {
 
-        logoutButton.addEventListener(
-            "click",
-            function () {
+/* =========================================================
+   SHOW LOGIN
+   ========================================================= */
 
-                localStorage.removeItem(
-                    "fsnFarmLoggedIn"
-                );
+function showLogin() {
 
-                showLogin();
+    const loginPage = getElement("loginPage");
+    const farmApp = getElement("farmApp");
 
+
+    if (loginPage) {
+
+        loginPage.style.display = "flex";
+
+    }
+
+
+    if (farmApp) {
+
+        farmApp.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   SHOW DASHBOARD
+   ========================================================= */
+
+function showDashboard() {
+
+    const loginPage = getElement("loginPage");
+    const farmApp = getElement("farmApp");
+
+
+    if (loginPage) {
+
+        loginPage.style.display = "none";
+
+    }
+
+
+    if (farmApp) {
+
+        farmApp.style.display = "flex";
+
+    }
+
+
+    updateDashboard();
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function initLogout() {
+
+    const logoutButton =
+        getElement("logoutButton");
+
+
+    if (!logoutButton) {
+        return;
+    }
+
+
+    logoutButton.addEventListener(
+        "click",
+        function () {
+
+            sessionStorage.removeItem(
+                "fsnFarmLoggedIn"
+            );
+
+
+            showLogin();
+
+
+            const password =
+                getElement("loginPassword");
+
+            if (password) {
+
+                password.value = "";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CURRENT DATE
+   ========================================================= */
+
+function updateCurrentDate() {
+
+    const currentDate =
+        getElement("currentDate");
+
+
+    if (!currentDate) {
+        return;
+    }
+
+
+    const today = new Date();
+
+
+    currentDate.textContent =
+        today.toLocaleDateString(
+            "id-ID",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
             }
         );
 
-    }
+}
 
 
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
 
-    /* =====================================================
-       DATE
-       ===================================================== */
+function initSidebar() {
 
-    function updateDate() {
+    const sidebar =
+        getElement("sidebar");
 
-        if (!currentDate) return;
+    const menuToggle =
+        getElement("menuToggle");
 
-        const today = new Date();
-
-        const formatter =
-            new Intl.DateTimeFormat(
-                "id-ID",
-                {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric"
-                }
-            );
-
-        currentDate.textContent =
-            formatter.format(today);
-
-    }
-
-    updateDate();
+    const overlay =
+        getElement("sidebarOverlay");
 
 
-
-    /* =====================================================
-       SIDEBAR MOBILE / IPAD
-       ===================================================== */
-
-    function openSidebar() {
-
-        if (sidebar) {
-            sidebar.classList.add("open");
-        }
-
-        if (sidebarOverlay) {
-            sidebarOverlay.classList.add("show");
-        }
-
-    }
-
-
-    function closeSidebar() {
-
-        if (sidebar) {
-            sidebar.classList.remove("open");
-        }
-
-        if (sidebarOverlay) {
-            sidebarOverlay.classList.remove("show");
-        }
-
+    if (!sidebar) {
+        return;
     }
 
 
@@ -229,16 +337,16 @@ if (loginButton) {
             "click",
             function () {
 
-                if (
-                    sidebar &&
-                    sidebar.classList.contains("open")
-                ) {
+                sidebar.classList.toggle(
+                    "sidebar-open"
+                );
 
-                    closeSidebar();
 
-                } else {
+                if (overlay) {
 
-                    openSidebar();
+                    overlay.classList.toggle(
+                        "active"
+                    );
 
                 }
 
@@ -248,954 +356,1113 @@ if (loginButton) {
     }
 
 
-    if (sidebarOverlay) {
+    if (overlay) {
 
-        sidebarOverlay.addEventListener(
+        overlay.addEventListener(
             "click",
             closeSidebar
         );
 
     }
 
+}
 
 
-    /* =====================================================
-       SIDEBAR MENU ACTIVE
-       ===================================================== */
+/* =========================================================
+   CLOSE SIDEBAR
+   ========================================================= */
 
-    const menuItems =
-        document.querySelectorAll(".menu-item");
+function closeSidebar() {
 
-    menuItems.forEach(function (item) {
+    const sidebar =
+        getElement("sidebar");
 
-        item.addEventListener(
-            "click",
-            function () {
+    const overlay =
+        getElement("sidebarOverlay");
 
-                menuItems.forEach(
-                    function (menu) {
 
-                        menu.classList.remove(
-                            "active"
-                        );
+    if (sidebar) {
 
-                    }
-                );
-
-                item.classList.add("active");
-
-                if (
-                    window.innerWidth <= 850
-                ) {
-
-                    closeSidebar();
-
-                }
-
-            }
+        sidebar.classList.remove(
+            "sidebar-open"
         );
 
+    }
+
+
+    if (overlay) {
+
+        overlay.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SIDEBAR MENU
+   ========================================================= */
+
+function initMenu() {
+
+    const menuItems =
+        document.querySelectorAll(
+            ".menu-item"
+        );
+
+
+    menuItems.forEach(
+        function (item) {
+
+            item.addEventListener(
+                "click",
+                function () {
+
+                    menuItems.forEach(
+                        function (menu) {
+
+                            menu.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    item.classList.add(
+                        "active"
+                    );
+
+
+                    const menuName =
+                        item.dataset.menu;
+
+
+                    handleMenu(menuName);
+
+
+                    if (
+                        window.innerWidth <= 900
+                    ) {
+
+                        closeSidebar();
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MENU ACTION
+   ========================================================= */
+
+function handleMenu(menuName) {
+
+    switch (menuName) {
+
+        case "dashboard":
+
+            scrollDashboardTop();
+
+            break;
+
+
+        case "population":
+
+            scrollToInput(
+                "initialChicken"
+            );
+
+            break;
+
+
+        case "feed":
+
+            scrollToInput(
+                "initialFeed"
+            );
+
+            break;
+
+
+        case "mortality":
+
+            scrollToInput(
+                "dailyDeath"
+            );
+
+            break;
+
+
+        case "growth":
+
+            scrollToInput(
+                "averageWeight"
+            );
+
+            break;
+
+
+        case "health":
+
+            showTemporaryMessage(
+                "Menu Kesehatan akan dikembangkan."
+            );
+
+            break;
+
+
+        case "harvest":
+
+            showTemporaryMessage(
+                "Menu Panen akan dikembangkan."
+            );
+
+            break;
+
+
+        case "finance":
+
+            showTemporaryMessage(
+                "Menu Keuangan akan dikembangkan."
+            );
+
+            break;
+
+
+        case "report":
+
+            document
+                .querySelector(".recent-panel")
+                ?.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            break;
+
+
+        case "settings":
+
+            showTemporaryMessage(
+                "Menu Pengaturan akan dikembangkan."
+            );
+
+            break;
+
+    }
+
+}
+
+
+/* =========================================================
+   SCROLL HELPERS
+   ========================================================= */
+
+function scrollDashboardTop() {
+
+    document
+        .querySelector(".dashboard-content")
+        ?.scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+function scrollToInput(id) {
+
+    const element =
+        getElement(id);
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
     });
 
 
+    setTimeout(
+        () => element.focus(),
+        400
+    );
 
-    /* =====================================================
-       INPUT ELEMENTS
-       ===================================================== */
+}
+
+
+/* =========================================================
+   FARM DATA FORM
+   ========================================================= */
+
+function initFarmForm() {
+
+    const form =
+        getElement("farmDataForm");
+
+
+    if (!form) {
+
+        console.error(
+            "farmDataForm tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            saveFarmData();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SAVE FARM DATA
+   ========================================================= */
+
+function saveFarmData() {
+
+    hideMessages();
+
 
     const initialChicken =
-        document.getElementById(
-            "initialChicken"
+        Math.max(
+            0,
+            Math.floor(
+                getNumber("initialChicken")
+            )
         );
+
 
     const dailyDeath =
-        document.getElementById(
-            "dailyDeath"
+        Math.max(
+            0,
+            Math.floor(
+                getNumber("dailyDeath")
+            )
         );
+
 
     const initialFeed =
-        document.getElementById(
-            "initialFeed"
+        Math.max(
+            0,
+            getNumber("initialFeed")
         );
+
 
     const feedIncoming =
-        document.getElementById(
-            "feedIncoming"
+        Math.max(
+            0,
+            getNumber("feedIncoming")
         );
+
 
     const feedUsed =
-        document.getElementById(
-            "feedUsed"
+        Math.max(
+            0,
+            getNumber("feedUsed")
         );
+
 
     const averageWeight =
-        document.getElementById(
-            "averageWeight"
+        Math.max(
+            0,
+            getNumber("averageWeight")
         );
 
 
+    /* -----------------------------------------
+       VALIDATION
+       ----------------------------------------- */
 
-    /* =====================================================
-       DASHBOARD OUTPUT
-       ===================================================== */
+    if (initialChicken <= 0) {
+
+        showSaveError(
+            "Masukkan populasi awal ayam."
+        );
+
+        return;
+
+    }
+
+
+    if (dailyDeath > initialChicken) {
+
+        showSaveError(
+            "Jumlah ayam mati tidak boleh melebihi populasi awal."
+        );
+
+        return;
+
+    }
+
+
+    const calculatedFeed =
+        initialFeed +
+        feedIncoming -
+        feedUsed;
+
+
+    if (calculatedFeed < 0) {
+
+        showSaveError(
+            "Pakan digunakan melebihi stok pakan yang tersedia."
+        );
+
+        return;
+
+    }
+
 
     const liveChicken =
-        document.getElementById(
-            "liveChicken"
+        Math.max(
+            0,
+            initialChicken - dailyDeath
         );
 
-    const deadChicken =
-        document.getElementById(
-            "deadChicken"
-        );
 
-    const feedStock =
-        document.getElementById(
-            "feedStock"
-        );
+    const mortality =
+        initialChicken > 0
+            ? (
+                dailyDeath /
+                initialChicken
+              ) * 100
+            : 0;
+
 
     const harvestChicken =
-        document.getElementById(
-            "harvestChicken"
+        averageWeight >=
+        CONFIG.HARVEST_WEIGHT
+
+            ? liveChicken
+
+            : 0;
+
+
+    /* -----------------------------------------
+       DATA OBJECT
+       ----------------------------------------- */
+
+    const farmData = {
+
+        id: Date.now(),
+
+        timestamp:
+            new Date().toISOString(),
+
+        date:
+            new Date().toLocaleDateString(
+                "id-ID"
+            ),
+
+        initialChicken,
+
+        dailyDeath,
+
+        liveChicken,
+
+        initialFeed,
+
+        feedIncoming,
+
+        feedUsed,
+
+        feedStock:
+            calculatedFeed,
+
+        averageWeight,
+
+        mortality,
+
+        harvestChicken
+
+    };
+
+
+    /* -----------------------------------------
+       SAVE CURRENT DATA
+       ----------------------------------------- */
+
+    localStorage.setItem(
+        "fsnFarmCurrentData",
+        JSON.stringify(farmData)
+    );
+
+
+    /* -----------------------------------------
+       SAVE HISTORY
+       ----------------------------------------- */
+
+    const history =
+        getFarmHistory();
+
+
+    history.unshift(
+        farmData
+    );
+
+
+    const limitedHistory =
+        history.slice(
+            0,
+            30
         );
 
-    const feedPanelValue =
-        document.getElementById(
-            "feedPanelValue"
+
+    localStorage.setItem(
+        "fsnFarmHistory",
+        JSON.stringify(limitedHistory)
+    );
+
+
+    /* -----------------------------------------
+       UPDATE DASHBOARD
+       ----------------------------------------- */
+
+    updateDashboard(
+        farmData
+    );
+
+
+    renderHistory();
+
+
+    showSuccess();
+
+
+    console.log(
+        "Farm data saved:",
+        farmData
+    );
+
+}
+
+
+/* =========================================================
+   LOAD FARM DATA
+   ========================================================= */
+
+function loadFarmData() {
+
+    const raw =
+        localStorage.getItem(
+            "fsnFarmCurrentData"
         );
 
-    const mortalityRate =
-        document.getElementById(
-            "mortalityRate"
-        );
 
-    const weightValue =
-        document.getElementById(
-            "weightValue"
-        );
+    if (!raw) {
 
-    const feedProgressBar =
-        document.getElementById(
-            "feedProgressBar"
-        );
+        updateDashboard();
 
+        renderHistory();
 
-
-    /* =====================================================
-       NUMBER HELPER
-       ===================================================== */
-
-    function getNumber(element) {
-
-        if (!element) return 0;
-
-        const value =
-            parseFloat(element.value);
-
-        if (isNaN(value)) {
-            return 0;
-        }
-
-        return value;
+        return;
 
     }
 
 
+    try {
 
-    /* =====================================================
-       FORMAT NUMBER INDONESIA
-       ===================================================== */
+        const data =
+            JSON.parse(raw);
 
-    function formatNumber(number) {
 
-        return new Intl.NumberFormat(
-            "id-ID"
-        ).format(number);
+        updateDashboard(
+            data
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Gagal membaca data farm:",
+            error
+        );
 
     }
 
 
+    renderHistory();
 
-    /* =====================================================
-       CALCULATE FARM DATA
-       ===================================================== */
-
-    function calculateFarmData(data) {
-
-        const initial =
-            Number(data.initialChicken) || 0;
-
-        const deaths =
-            Number(data.dailyDeath) || 0;
-
-        const feedInitial =
-            Number(data.initialFeed) || 0;
-
-        const incoming =
-            Number(data.feedIncoming) || 0;
-
-        const used =
-            Number(data.feedUsed) || 0;
-
-        const weight =
-            Number(data.averageWeight) || 0;
+}
 
 
-        /* LIVE CHICKEN */
+/* =========================================================
+   UPDATE DASHBOARD
+   ========================================================= */
 
-        let live =
-            initial - deaths;
+function updateDashboard(data = null) {
 
-        if (live < 0) {
-            live = 0;
-        }
+    if (!data) {
 
-
-        /* FEED */
-
-        let feed =
-            feedInitial +
-            incoming -
-            used;
-
-        if (feed < 0) {
-            feed = 0;
-        }
+        const raw =
+            localStorage.getItem(
+                "fsnFarmCurrentData"
+            );
 
 
-        /* MORTALITY */
+        if (raw) {
 
-        let mortality = 0;
+            try {
 
-        if (initial > 0) {
+                data =
+                    JSON.parse(raw);
 
-            mortality =
-                (deaths / initial) * 100;
+            } catch (error) {
+
+                data = null;
+
+            }
 
         }
 
-
-        /* HARVEST ESTIMATION
-
-           Untuk sekarang:
-           ayam dianggap mendekati siap panen
-           jika bobot >= 1.8 kg.
-
-        */
-
-        let harvest = 0;
-
-        if (weight >= 1.8) {
-
-            harvest = live;
-
-        }
+    }
 
 
-        return {
+    if (!data) {
 
-            initialChicken: initial,
+        data = {
 
-            dailyDeath: deaths,
-
-            liveChicken: live,
-
-            initialFeed: feedInitial,
-
-            feedIncoming: incoming,
-
-            feedUsed: used,
-
-            feedStock: feed,
-
-            averageWeight: weight,
-
-            mortalityRate: mortality,
-
-            harvestChicken: harvest,
-
-            date: new Date().toISOString()
+            liveChicken: 0,
+            dailyDeath: 0,
+            feedStock: 0,
+            averageWeight: 0,
+            mortality: 0,
+            harvestChicken: 0
 
         };
 
     }
 
 
-
-    /* =====================================================
-       UPDATE DASHBOARD
-       ===================================================== */
-
-    function updateDashboard(data) {
-
-        if (!data) return;
-
-
-        if (liveChicken) {
-
-            liveChicken.textContent =
-                formatNumber(
-                    data.liveChicken
-                );
-
-        }
-
-
-        if (deadChicken) {
-
-            deadChicken.textContent =
-                formatNumber(
-                    data.dailyDeath
-                );
-
-        }
-
-
-        if (feedStock) {
-
-            feedStock.textContent =
-                formatNumber(
-                    data.feedStock
-                ) + " kg";
-
-        }
-
-
-        if (feedPanelValue) {
-
-            feedPanelValue.textContent =
-                formatNumber(
-                    data.feedStock
-                );
-
-        }
-
-
-        if (harvestChicken) {
-
-            harvestChicken.textContent =
-                formatNumber(
-                    data.harvestChicken
-                );
-
-        }
-
-
-        if (mortalityRate) {
-
-            mortalityRate.textContent =
-                data.mortalityRate
-                    .toFixed(2) + "%";
-
-        }
-
-
-        if (weightValue) {
-
-            weightValue.textContent =
-                data.averageWeight
-                    .toFixed(2) + " kg";
-
-        }
-
-
-        /* FEED PROGRESS */
-
-        if (feedProgressBar) {
-
-            const capacity = 5000;
-
-            let percentage =
-                (
-                    data.feedStock /
-                    capacity
-                ) * 100;
-
-            if (percentage > 100) {
-                percentage = 100;
-            }
-
-            if (percentage < 0) {
-                percentage = 0;
-            }
-
-            feedProgressBar.style.width =
-                percentage + "%";
-
-        }
-
-    }
-
-
-
-    /* =====================================================
-       SAVE DAILY DATA
-       ===================================================== */
-
-    if (saveButton) {
-
-        saveButton.addEventListener(
-            "click",
-            function () {
-
-                const inputData = {
-
-                    initialChicken:
-                        getNumber(
-                            initialChicken
-                        ),
-
-                    dailyDeath:
-                        getNumber(
-                            dailyDeath
-                        ),
-
-                    initialFeed:
-                        getNumber(
-                            initialFeed
-                        ),
-
-                    feedIncoming:
-                        getNumber(
-                            feedIncoming
-                        ),
-
-                    feedUsed:
-                        getNumber(
-                            feedUsed
-                        ),
-
-                    averageWeight:
-                        getNumber(
-                            averageWeight
-                        )
-
-                };
-
-
-                /* VALIDATION */
-
-                if (
-                    inputData.dailyDeath >
-                    inputData.initialChicken
-                ) {
-
-                    alert(
-                        "Jumlah ayam mati tidak boleh melebihi populasi awal."
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    inputData.feedUsed >
-                    (
-                        inputData.initialFeed +
-                        inputData.feedIncoming
-                    )
-                ) {
-
-                    alert(
-                        "Pakan digunakan melebihi stok pakan tersedia."
-                    );
-
-                    return;
-
-                }
-
-
-                const calculatedData =
-                    calculateFarmData(
-                        inputData
-                    );
-
-
-                /* SAVE CURRENT DATA */
-
-                localStorage.setItem(
-                    "fsnFarmData",
-                    JSON.stringify(
-                        calculatedData
-                    )
-                );
-
-
-                /* SAVE HISTORY */
-
-                saveHistory(
-                    calculatedData
-                );
-
-
-                /* UPDATE DASHBOARD */
-
-                updateDashboard(
-                    calculatedData
-                );
-
-
-                /* SUCCESS MESSAGE */
-
-                if (successMessage) {
-
-                    successMessage.style.display =
-                        "block";
-
-                    successMessage.textContent =
-                        "✓ Data peternakan berhasil disimpan";
-
-                    setTimeout(
-                        function () {
-
-                            successMessage.style.display =
-                                "none";
-
-                        },
-                        3000
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       SAVE HISTORY
-       ===================================================== */
-
-    function saveHistory(data) {
-
-        let history = [];
-
-        const existingHistory =
-            localStorage.getItem(
-                "fsnFarmHistory"
-            );
-
-
-        if (existingHistory) {
-
-            try {
-
-                history =
-                    JSON.parse(
-                        existingHistory
-                    );
-
-            } catch (error) {
-
-                history = [];
-
-            }
-
-        }
-
-
-        history.unshift(data);
-
-
-        /* SIMPAN MAKSIMAL 30 DATA */
-
-        if (history.length > 30) {
-
-            history =
-                history.slice(0, 30);
-
-        }
-
-
-        localStorage.setItem(
-            "fsnFarmHistory",
-            JSON.stringify(history)
-        );
-
-
-        renderHistory();
-
-    }
-
-
-
-    /* =====================================================
-       LOAD FARM DATA
-       ===================================================== */
-
-    function loadFarmData() {
-
-        const storedData =
-            localStorage.getItem(
-                "fsnFarmData"
-            );
-
-
-        if (!storedData) {
-
-            updateDashboard({
-
-                liveChicken: 0,
-
-                dailyDeath: 0,
-
-                feedStock: 0,
-
-                harvestChicken: 0,
-
-                mortalityRate: 0,
-
-                averageWeight: 0
-
-            });
-
-            renderHistory();
-
-            return;
-
-        }
-
-
-        try {
-
-            const data =
-                JSON.parse(storedData);
-
-
-            updateDashboard(data);
-
-
-            /* RESTORE INPUT */
-
-            if (initialChicken) {
-
-                initialChicken.value =
-                    data.initialChicken || "";
-
-            }
-
-
-            if (dailyDeath) {
-
-                dailyDeath.value =
-                    data.dailyDeath || "";
-
-            }
-
-
-            if (initialFeed) {
-
-                initialFeed.value =
-                    data.initialFeed || "";
-
-            }
-
-
-            if (feedIncoming) {
-
-                feedIncoming.value =
-                    data.feedIncoming || "";
-
-            }
-
-
-            if (feedUsed) {
-
-                feedUsed.value =
-                    data.feedUsed || "";
-
-            }
-
-
-            if (averageWeight) {
-
-                averageWeight.value =
-                    data.averageWeight || "";
-
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Gagal membaca data FSN Farm:",
-                error
-            );
-
-        }
-
-
-        renderHistory();
-
-    }
-
-
-
-    /* =====================================================
-       HISTORY TABLE
-       ===================================================== */
-
-    function renderHistory() {
-
-        const tableBody =
-            document.getElementById(
-                "historyTableBody"
-            );
-
-
-        if (!tableBody) return;
-
-
-        const storedHistory =
-            localStorage.getItem(
-                "fsnFarmHistory"
-            );
-
-
-        if (!storedHistory) {
-
-            tableBody.innerHTML = `
-                <tr class="empty-row">
-                    <td colspan="6">
-                        Belum ada data peternakan.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        let history;
-
-
-        try {
-
-            history =
-                JSON.parse(
-                    storedHistory
-                );
-
-        } catch (error) {
-
-            history = [];
-
-        }
-
-
-        if (
-            !Array.isArray(history) ||
-            history.length === 0
-        ) {
-
-            tableBody.innerHTML = `
-                <tr class="empty-row">
-                    <td colspan="6">
-                        Belum ada data peternakan.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        tableBody.innerHTML = "";
-
-
-        history
-            .slice(0, 10)
-            .forEach(function (item) {
-
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
-
-
-                const date =
-                    new Date(item.date);
-
-
-                const formattedDate =
-                    date.toLocaleDateString(
-                        "id-ID",
-                        {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric"
-                        }
-                    );
-
-
-                row.innerHTML = `
-
-                    <td>
-                        ${formattedDate}
-                    </td>
-
-                    <td>
-                        ${formatNumber(
-                            item.liveChicken || 0
-                        )}
-                    </td>
-
-                    <td>
-                        ${formatNumber(
-                            item.dailyDeath || 0
-                        )}
-                    </td>
-
-                    <td>
-                        ${formatNumber(
-                            item.feedStock || 0
-                        )} kg
-                    </td>
-
-                    <td>
-                        ${
-                            Number(
-                                item.averageWeight || 0
-                            ).toFixed(2)
-                        } kg
-                    </td>
-
-                    <td>
-                        ${
-                            Number(
-                                item.mortalityRate || 0
-                            ).toFixed(2)
-                        }%
-                    </td>
-
-                `;
-
-
-                tableBody.appendChild(row);
-
-            });
-
-    }
-
-
-
-    /* =====================================================
-       LIVE PREVIEW INPUT
-       ===================================================== */
-
-    const farmInputs = [
-
-        initialChicken,
-        dailyDeath,
-        initialFeed,
-        feedIncoming,
-        feedUsed,
-        averageWeight
-
-    ];
-
-
-    farmInputs.forEach(
-        function (input) {
-
-            if (!input) return;
-
-
-            input.addEventListener(
-                "input",
-                function () {
-
-                    const preview =
-                        calculateFarmData({
-
-                            initialChicken:
-                                getNumber(
-                                    initialChicken
-                                ),
-
-                            dailyDeath:
-                                getNumber(
-                                    dailyDeath
-                                ),
-
-                            initialFeed:
-                                getNumber(
-                                    initialFeed
-                                ),
-
-                            feedIncoming:
-                                getNumber(
-                                    feedIncoming
-                                ),
-
-                            feedUsed:
-                                getNumber(
-                                    feedUsed
-                                ),
-
-                            averageWeight:
-                                getNumber(
-                                    averageWeight
-                                )
-
-                        });
-
-
-                    updateDashboard(
-                        preview
-                    );
-
-                }
-            );
-
-        }
+    /* -----------------------------------------
+       MAIN CARDS
+       ----------------------------------------- */
+
+    setText(
+        "liveChicken",
+        formatNumber(
+            data.liveChicken,
+            0
+        )
     );
 
 
-
-    /* =====================================================
-       WINDOW RESIZE
-       ===================================================== */
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-            if (
-                window.innerWidth > 850
-            ) {
-
-                closeSidebar();
-
-            }
-
-        }
+    setText(
+        "feedStock",
+        `${formatNumber(
+            data.feedStock
+        )} kg`
     );
 
 
+    setText(
+        "deadChicken",
+        formatNumber(
+            data.dailyDeath,
+            0
+        )
+    );
 
-    /* =====================================================
-       INITIAL DATA LOAD
-       ===================================================== */
 
-    if (
-        localStorage.getItem(
-            "fsnFarmLoggedIn"
-        ) === "true"
+    setText(
+        "harvestChicken",
+        formatNumber(
+            data.harvestChicken,
+            0
+        )
+    );
+
+
+    /* -----------------------------------------
+       FEED PANEL
+       ----------------------------------------- */
+
+    setText(
+        "feedPanelValue",
+        formatNumber(
+            data.feedStock
+        )
+    );
+
+
+    updateFeedProgress(
+        data.feedStock
+    );
+
+
+    /* -----------------------------------------
+       PERFORMANCE
+       ----------------------------------------- */
+
+    setText(
+        "mortalityRate",
+        `${Number(
+            data.mortality || 0
+        ).toFixed(2)}%`
+    );
+
+
+    setText(
+        "weightValue",
+        `${Number(
+            data.averageWeight || 0
+        ).toFixed(2)} kg`
+    );
+
+
+    updateFCR(data);
+
+}
+
+
+/* =========================================================
+   SET TEXT
+   ========================================================= */
+
+function setText(id, value) {
+
+    const element =
+        getElement(id);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* =========================================================
+   FEED PROGRESS
+   ========================================================= */
+
+function updateFeedProgress(feedStock) {
+
+    const bar =
+        getElement(
+            "feedProgressBar"
+        );
+
+
+    const status =
+        getElement(
+            "feedStatus"
+        );
+
+
+    const feed =
+        Math.max(
+            0,
+            Number(feedStock || 0)
+        );
+
+
+    const percentage =
+        Math.min(
+            100,
+            (
+                feed /
+                CONFIG.FEED_CAPACITY
+            ) * 100
+        );
+
+
+    if (bar) {
+
+        bar.style.width =
+            `${percentage}%`;
+
+    }
+
+
+    if (!status) {
+        return;
+    }
+
+
+    if (percentage <= 20) {
+
+        status.textContent =
+            "Kritis";
+
+        status.dataset.status =
+            "danger";
+
+
+    } else if (
+        percentage <= 40
     ) {
 
-        loadFarmData();
+        status.textContent =
+            "Menipis";
+
+        status.dataset.status =
+            "warning";
+
+
+    } else {
+
+        status.textContent =
+            "Aman";
+
+        status.dataset.status =
+            "safe";
+
+    }
+
+}
+
+
+/* =========================================================
+   FCR
+   ========================================================= */
+
+function updateFCR(data) {
+
+    const fcrElement =
+        getElement("fcrValue");
+
+
+    if (!fcrElement) {
+        return;
+    }
+
+
+    const feedUsed =
+        Number(
+            data.feedUsed || 0
+        );
+
+
+    const liveChicken =
+        Number(
+            data.liveChicken || 0
+        );
+
+
+    const weight =
+        Number(
+            data.averageWeight || 0
+        );
+
+
+    const biomass =
+        liveChicken * weight;
+
+
+    if (
+        feedUsed > 0 &&
+        biomass > 0
+    ) {
+
+        const fcr =
+            feedUsed / biomass;
+
+
+        fcrElement.textContent =
+            fcr.toFixed(2);
+
+
+    } else {
+
+        fcrElement.textContent =
+            "--";
+
+    }
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+function getFarmHistory() {
+
+    const raw =
+        localStorage.getItem(
+            "fsnFarmHistory"
+        );
+
+
+    if (!raw) {
+
+        return [];
 
     }
 
 
-    console.log(
-        "FSN Farm Management System loaded successfully."
+    try {
+
+        const history =
+            JSON.parse(raw);
+
+
+        return Array.isArray(history)
+            ? history
+            : [];
+
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER HISTORY
+   ========================================================= */
+
+function renderHistory() {
+
+    const tbody =
+        getElement(
+            "historyTableBody"
+        );
+
+
+    if (!tbody) {
+        return;
+    }
+
+
+    const history =
+        getFarmHistory();
+
+
+    tbody.innerHTML = "";
+
+
+    if (history.length === 0) {
+
+        tbody.innerHTML = `
+            <tr class="empty-row">
+                <td colspan="6">
+                    Belum ada data peternakan.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    history.forEach(
+        function (data) {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHTML(
+                        data.date
+                    )}
+                </td>
+
+                <td>
+                    ${formatNumber(
+                        data.liveChicken,
+                        0
+                    )}
+                </td>
+
+                <td>
+                    ${formatNumber(
+                        data.dailyDeath,
+                        0
+                    )}
+                </td>
+
+                <td>
+                    ${formatNumber(
+                        data.feedStock
+                    )} kg
+                </td>
+
+                <td>
+                    ${Number(
+                        data.averageWeight || 0
+                    ).toFixed(2)} kg
+                </td>
+
+                <td>
+                    ${Number(
+                        data.mortality || 0
+                    ).toFixed(2)}%
+                </td>
+
+            `;
+
+
+            tbody.appendChild(
+                row
+            );
+
+        }
     );
 
-});
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        String(value ?? "");
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGE
+   ========================================================= */
+
+function showSuccess() {
+
+    const success =
+        getElement(
+            "successMessage"
+        );
+
+
+    if (!success) {
+        return;
+    }
+
+
+    success.style.display =
+        "block";
+
+
+    setTimeout(
+        function () {
+
+            success.style.display =
+                "none";
+
+        },
+        3500
+    );
+
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+function showSaveError(message) {
+
+    const error =
+        getElement(
+            "saveError"
+        );
+
+
+    if (!error) {
+        return;
+    }
+
+
+    error.textContent =
+        message;
+
+    error.style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   HIDE MESSAGES
+   ========================================================= */
+
+function hideMessages() {
+
+    const success =
+        getElement(
+            "successMessage"
+        );
+
+
+    const error =
+        getElement(
+            "saveError"
+        );
+
+
+    if (success) {
+
+        success.style.display =
+            "none";
+
+    }
+
+
+    if (error) {
+
+        error.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   TEMPORARY MESSAGE
+   ========================================================= */
+
+function showTemporaryMessage(message) {
+
+    console.log(message);
+
+    alert(message);
+
+}
