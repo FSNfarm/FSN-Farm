@@ -2732,7 +2732,7 @@ img {
 
 @media (max-width: 1100px) {
 
-    .harvest-summary-grid {
+    .harvest-stats {
         grid-template-columns:
             repeat(2,1fr);
     }
@@ -2802,7 +2802,7 @@ img {
 
 @media (max-width: 520px) {
 
-    .harvest-summary-grid,
+    .harvest-stata,
     .production-stats,
     .harvest-form-grid,
     .sales-form-grid,
