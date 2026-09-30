@@ -525,7 +525,6 @@ case "harvest":
     showPage("harvestPage");
 
     break;
-
         case "finance":
 
             showTemporaryMessage(
