@@ -468,11 +468,11 @@ function handleMenu(menuName) {
 
     switch (menuName) {
 
-        case "dashboard":
+case "dashboard":
 
-            scrollDashboardTop();
+    showPage("dashboardPage");
 
-            break;
+    break;
 
 
         case "population":
@@ -520,14 +520,11 @@ function handleMenu(menuName) {
             break;
 
 
-        case "harvest":
+case "harvest":
 
-            showTemporaryMessage(
-                "Menu Panen akan dikembangkan."
-            );
+    showPage("harvestPage");
 
-            break;
-
+    break;
 
         case "finance":
 
@@ -561,7 +558,31 @@ function handleMenu(menuName) {
 
 }
 
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
 
+function showPage(pageId) {
+
+    const pages = document.querySelectorAll(".page-section");
+
+    pages.forEach(function (page) {
+        page.classList.remove("active");
+        page.classList.remove("active-page");
+    });
+
+    const targetPage = document.getElementById(pageId);
+
+    if (targetPage) {
+        targetPage.classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+}
 /* =========================================================
    SCROLL HELPERS
    ========================================================= */
