@@ -2176,7 +2176,7 @@ img {
     margin-bottom: 22px;
 }
 
-.harvest-summary-card {
+.harvest-stat-card
     display: flex;
     align-items: center;
 
