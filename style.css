@@ -2766,13 +2766,13 @@ img {
         font-size: 27px;
     }
 
-    .harvest-logo {
-        width: 100px;
-    }
+.harvest-header-logo {
+    width: 100px;
+}
 
-    .harvest-logo img {
-        width: 95px;
-    }
+.harvest-header-logo img {
+    width: 95px;
+}
 
     .incubator-dashboard,
     .chicken-cycle,
@@ -2815,15 +2815,14 @@ img {
         min-height: 180px;
     }
 
-    .harvest-logo {
-        position: absolute;
+.harvest-header-logo {
+    position: absolute;
 
-        right: 15px;
-        top: 15px;
+    right: 15px;
+    top: 15px;
 
-        opacity: .3;
-    }
-
+    opacity: .3;
+}
     .harvest-section,
     .business-model-panel {
         padding: 18px;
