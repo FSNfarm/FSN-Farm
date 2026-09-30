@@ -2176,7 +2176,7 @@ img {
     margin-bottom: 22px;
 }
 
-.harvest-stat-card
+.harvest-stat-card {
     display: flex;
     align-items: center;
 
@@ -2188,8 +2188,7 @@ img {
 
     background: white;
 
-    border:
-        1px solid #e4ece7;
+    border: 1px solid #e4ece7;
 
     border-radius: 18px;
 
