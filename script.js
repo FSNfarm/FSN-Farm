@@ -573,7 +573,7 @@ function showPage(pageId) {
     const targetPage = document.getElementById(pageId);
 
     if (targetPage) {
-        targetPage.classList.add("active");
+        targetPage.classList.add("active-page");
 
         window.scrollTo({
             top: 0,
