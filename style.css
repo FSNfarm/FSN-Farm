@@ -2051,7 +2051,7 @@ img {
     animation: pageFade .3s ease;
 }
 
-.page-section.active {
+.page-section.active-page {
     display: block;
 }
 
